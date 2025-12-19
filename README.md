@@ -1,6 +1,4 @@
 # Informatica Taak 1BA INF1 2025-’26  
-**Docenten:** Kris Aerts, Michiel Claes, Arne Duyver, Kristof Overdulve, Joni Vanherck  
-
 ---
 
 ## Verplichte taak
