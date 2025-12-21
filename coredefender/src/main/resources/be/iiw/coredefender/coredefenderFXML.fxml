@@ -8,20 +8,10 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Text?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/25" fx:controller="be.iiw.coredefender.CoredefenderFXMLController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="be.iiw.coredefender.CoredefenderFXMLController">
    <children>
-      <HBox layoutX="200.0" layoutY="343.0" prefHeight="30.0" prefWidth="185.0" spacing="5.0">
-         <children>
-            <Button fx:id="overlay_attack" minHeight="40.0" minWidth="40.0" mnemonicParsing="false">
-               <rotationAxis>
-                  <Point3D x="1.0" z="1.0" />
-               </rotationAxis>
-            </Button>
-            <Button fx:id="overlay_build" minHeight="40.0" minWidth="40.0" mnemonicParsing="false" />
-            <Button fx:id="overlay_level" minHeight="40.0" minWidth="40.0" mnemonicParsing="false" />
-            <Button fx:id="overlay_shop" minHeight="40.0" minWidth="40.0" mnemonicParsing="false" />
-         </children>
+      <AnchorPane fx:id="character_pane" layoutX="93.0" layoutY="70.0" prefHeight="260.0" prefWidth="400.0" />
+      <HBox layoutX="307.0" layoutY="320.0" prefHeight="30.0" prefWidth="185.0" spacing="5.0">
          <opaqueInsets>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </opaqueInsets>
@@ -29,21 +19,35 @@
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </padding>
       </HBox>
-      <HBox layoutX="297.0" layoutY="310.0" prefHeight="30.0" prefWidth="185.0" spacing="5.0">
-         <opaqueInsets>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-         </opaqueInsets>
-         <padding>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-         </padding>
-      </HBox>
-      <Pane layoutX="8.0" layoutY="332.0" prefHeight="60.0" prefWidth="113.0">
+      <Pane layoutX="18.0" layoutY="342.0" prefHeight="60.0" prefWidth="113.0">
          <children>
             <Text fx:id="item_wood" layoutX="5.0" layoutY="18.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Wood:" wrappingWidth="79.99999999999977" />
             <Text fx:id="item_stone" layoutX="5.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Stone:" wrappingWidth="79.99999999999977" />
             <Text fx:id="item_gold" layoutX="5.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Gold:" wrappingWidth="79.99999999999977" />
          </children>
       </Pane>
-      <Text fx:id="coordinates" layoutX="5.0" layoutY="18.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Coords:" />
+      <Text fx:id="coordinates" layoutX="15.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Coords:" />
+      <AnchorPane layoutX="201.0" layoutY="342.0" prefHeight="60.0" prefWidth="185.0">
+         <children>
+            <HBox fx:id="overlay_hbox" prefHeight="30.0" prefWidth="176.0" spacing="5.0">
+               <children>
+                  <Button fx:id="overlay_attack" minHeight="40.0" minWidth="40.0" mnemonicParsing="false" style="-fx-background-color: #344263; -fx-border-color: #1B2640; -fx-border-width: 2;">
+                     <rotationAxis>
+                        <Point3D x="1.0" z="1.0" />
+                     </rotationAxis>
+                  </Button>
+                  <Button fx:id="overlay_build" minHeight="40.0" minWidth="40.0" mnemonicParsing="false" style="-fx-background-color: #344263; -fx-border-color: #1B2640; -fx-border-width: 2;" />
+                  <Button fx:id="overlay_level" minHeight="40.0" minWidth="40.0" mnemonicParsing="false" style="-fx-background-color: #344263; -fx-border-color: #1B2640; -fx-border-width: 2;" />
+                  <Button fx:id="overlay_shop" minHeight="40.0" minWidth="40.0" mnemonicParsing="false" style="-fx-background-color: #344263; -fx-border-color: #1B2640; -fx-border-width: 2;" />
+               </children>
+               <opaqueInsets>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </opaqueInsets>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </HBox>
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>
