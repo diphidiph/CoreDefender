@@ -22,14 +22,17 @@ public class CharacterView extends Region {
         
         character_pane = new AnchorPane();
         
-        Circle lichaam = new Circle(25,25,25,Color.YELLOW);
-        lichaam.setStroke(Color.BROWN);
-        Circle linker_arm = new Circle(25,25,25,Color.YELLOW);
-        linker_arm.setStroke(Color.BROWN);
-        Circle rechter_arm = new Circle(25,25,25,Color.YELLOW);
-        linker_arm.setStroke(Color.BROWN);
+        Circle lichaam = new Circle(0, 0, 30, Color.KHAKI);
+        lichaam.setStroke(Color.BLACK);
+        lichaam.setStrokeWidth(2);
+        Circle linker_arm = new Circle(23,-18,12,Color.KHAKI);
+        linker_arm.setStroke(Color.BLACK);
+        linker_arm.setStrokeWidth(2);
+        Circle rechter_arm = new Circle(-23,-18,12,Color.KHAKI);
+        rechter_arm.setStroke(Color.BLACK);
+        rechter_arm.setStrokeWidth(2);
         
-        character_pane.getChildren().addAll(lichaam,linker_arm,rechter_arm);
+        character_pane.getChildren().addAll(linker_arm, rechter_arm, lichaam);
         getChildren().add(character_pane);
         update();
     }
@@ -39,5 +42,7 @@ public class CharacterView extends Region {
         int y = model.getY();
         character_pane.setLayoutX(x);
         character_pane.setLayoutY(y);
+        character_pane.setTranslateX(model.getX());
+        character_pane.setTranslateY(model.getY());
     }
 }

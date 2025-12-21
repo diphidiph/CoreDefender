@@ -1,15 +1,12 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+* Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+* Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template*/ 
+
 package be.iiw.coredefender.character;
 
-/**
- *
- * @author kinga
- */
-public class CharacterModel {
-    private int x,y;
+/** * * @author kinga */ 
+public class CharacterModel { 
+    private int x, y;
     private int dx,dy;
     
     public CharacterModel() {
@@ -36,14 +33,14 @@ public class CharacterModel {
     }
     
     public void links() {
-        if(dx >= -3) {
+        if(dx >= -3){
             dx--;
         }
     }
     
     public void onder() {
         if(dy <= 3) {
-            dy++;
+            dy++; 
         }
     }
     
