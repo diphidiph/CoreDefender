@@ -58,9 +58,8 @@ public class CharacterController {
         }
     }
 
-    public void tick() {
-        char_model.tick();
-        char_view.update();
+    public void update() {
+            char_view.update();
     }
 
     public CharacterView getView() {

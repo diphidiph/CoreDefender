@@ -38,11 +38,8 @@ public class CharacterView extends Region {
     }
 
     public void update() {
-        int x = char_model.getX();
-        int y = char_model.getY();
-        character_pane.setLayoutX(x);
-        character_pane.setLayoutY(y);
         character_pane.setTranslateX(char_model.getX());
         character_pane.setTranslateY(char_model.getY());
-    }
+        
+      }
 }

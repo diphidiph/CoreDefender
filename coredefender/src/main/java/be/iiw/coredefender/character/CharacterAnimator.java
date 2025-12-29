@@ -15,14 +15,16 @@ import javafx.application.Platform;
 public class CharacterAnimator extends TimerTask {
 
     private final CharacterController controller;
+    private CharacterModel char_model;
 
-    public CharacterAnimator(CharacterController controller) {
+    public CharacterAnimator(CharacterController controller,CharacterModel char_model) {
         this.controller = controller;
+        this.char_model = char_model;
     }
 
     @Override
     public void run() {
-        controller.tick();
-        Platform.runLater(() -> controller.getView().update());
+        char_model.tick();
+        Platform.runLater(controller::update);
     }
 }

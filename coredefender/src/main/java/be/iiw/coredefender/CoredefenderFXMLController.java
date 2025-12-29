@@ -61,6 +61,7 @@ public class CoredefenderFXMLController {
     
     @FXML
     private CharacterController characterController;
+    private CharacterModel char_model;
 
     @FXML
     void initialize() {
@@ -92,7 +93,7 @@ public class CoredefenderFXMLController {
         overlay_shop.setOnAction(this::handleOverlayShop);
 
         Timer timer = new Timer(true);
-        timer.scheduleAtFixedRate(new CharacterAnimator(characterController), 10, 20);
+        timer.scheduleAtFixedRate(new CharacterAnimator(characterController, char_model), 10, 20);
     }
 
     private void onMovementInput(KeyEvent ep) {

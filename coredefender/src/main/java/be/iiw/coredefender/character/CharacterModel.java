@@ -8,6 +8,7 @@ package be.iiw.coredefender.character;
 public class CharacterModel { 
     private int x, y;
     private int dx,dy;
+    private final int v = 6; //velocity
         
     public CharacterModel() {
         this(0,0);
@@ -27,21 +28,21 @@ public class CharacterModel {
     }
     
     public void rechts() {
-        dx = 2;
+        dx = v;
     }
     
     
     public void links() {
-        dx = -2;
+        dx = -v;
     }
    
       
     public void onder() {
-        dy = 2;
+        dy = v;
     }    
     
     public void boven() {
-        dy = -2;          
+        dy = -v;          
     }
     
     public void stopX() {
