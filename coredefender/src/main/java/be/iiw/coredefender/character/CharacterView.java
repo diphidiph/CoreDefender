@@ -14,22 +14,22 @@ import javafx.scene.shape.Circle;
  * @author kinga
  */
 public class CharacterView extends Region {
-    private CharacterModel model;
+    private CharacterModel char_model;
     private AnchorPane character_pane;
     
     public CharacterView(CharacterModel model) {
-        this.model = model;
+        this.char_model = model;
         
         character_pane = new AnchorPane();
         
-        Circle lichaam = new Circle(0, 0, 30, Color.KHAKI);
-        lichaam.setStroke(Color.BLACK);
+        Circle lichaam = new Circle(0, 0, 30, Color.web("#9e7b5c"));
+        lichaam.setStroke(Color.web("#262235"));
         lichaam.setStrokeWidth(2);
-        Circle linker_arm = new Circle(23,-18,12,Color.KHAKI);
-        linker_arm.setStroke(Color.BLACK);
+        Circle linker_arm = new Circle(23,-18,12,Color.web("#8c6b54"));
+        linker_arm.setStroke(Color.web("#262235"));
         linker_arm.setStrokeWidth(2);
-        Circle rechter_arm = new Circle(-23,-18,12,Color.KHAKI);
-        rechter_arm.setStroke(Color.BLACK);
+        Circle rechter_arm = new Circle(-23,-18,12,Color.web("#8c6b54"));
+        rechter_arm.setStroke(Color.web("#262235"));
         rechter_arm.setStrokeWidth(2);
         
         character_pane.getChildren().addAll(linker_arm, rechter_arm, lichaam);
@@ -38,11 +38,8 @@ public class CharacterView extends Region {
     }
 
     public void update() {
-        int x = model.getX();
-        int y = model.getY();
-        character_pane.setLayoutX(x);
-        character_pane.setLayoutY(y);
-        character_pane.setTranslateX(model.getX());
-        character_pane.setTranslateY(model.getY());
-    }
+        character_pane.setTranslateX(char_model.getX());
+        character_pane.setTranslateY(char_model.getY());
+        
+      }
 }
