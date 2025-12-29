@@ -20,8 +20,8 @@ public class CharacterController {
         this.char_view = view;
     }
 
-    public void onKeyPressed(KeyEvent e) {
-        switch (e.getCode()) {
+    public void onKeyPressed(KeyEvent ep) {
+        switch (ep.getCode()) {
             case LEFT:
                 char_model.links();
                 break;
@@ -39,8 +39,8 @@ public class CharacterController {
         }
        
     }
-    public void onKeyReleased(KeyEvent es) { 
-        switch (es.getCode()) { 
+    public void onKeyReleased(KeyEvent er) { 
+        switch (er.getCode()) { 
             case RIGHT: 
                 char_model.stopX();    
                 break; 
@@ -54,15 +54,13 @@ public class CharacterController {
                 char_model.stopY(); 
                 break; 
             default: 
-                    return; 
+                return; 
         }
     }
-
 
     public void tick() {
         char_model.tick();
         char_view.update();
-        
     }
 
     public CharacterView getView() {

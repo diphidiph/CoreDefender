@@ -8,6 +8,7 @@ import be.iiw.coredefender.world.WorldView;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.Timer;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.input.KeyEvent;
@@ -74,11 +75,6 @@ public class CoredefenderFXMLController {
         character_pane.setOnKeyPressed(this::onMovementInput);
         character_pane.setOnKeyReleased(this::onMovementRelease);
         character_pane.setFocusTraversable(true);
-
-        overlay_attack.setOnAction(ae -> character_pane.requestFocus());
-        overlay_build.setOnAction(ae -> character_pane.requestFocus());
-        overlay_level.setOnAction(ae -> character_pane.requestFocus());
-        overlay_shop.setOnAction(ae -> character_pane.requestFocus());
         
         overlay_attack.setGraphic(createSVG("M13 .5c0-.276-.226-.506-.498-.465-1.703.257-2.94 2.012-3 8.462a.5.5 0 0 0 .498.5c.56.01 1 .13 1 1.003v5.5a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5z"));
         overlay_build.setGraphic(createSVG("M15.528 2.973a.75.75 0 0 1 .472.696v8.662a.75.75 0 0 1-.472.696l-7.25 2.9a.75.75 0 0 1-.557 0l-7.25-2.9A.75.75 0 0 1 0 12.331V3.669a.75.75 0 0 1 .471-.696L7.443.184l.01-.003.268-.108a.75.75 0 0 1 .558 0l.269.108.01.003zM10.404 2 4.25 4.461 1.846 3.5 1 3.839v.4l6.5 2.6v7.922l.5.2.5-.2V6.84l6.5-2.6v-.4l-.846-.339L8 5.961 5.596 5l6.154-2.461z"));
@@ -89,18 +85,39 @@ public class CoredefenderFXMLController {
         overlay_build.setFocusTraversable(false);
         overlay_level.setFocusTraversable(false);
         overlay_shop.setFocusTraversable(false);
+        
+        overlay_attack.setOnAction(this::handleOverlayAttack);
+        overlay_build.setOnAction(this::handleOverlayBuild);
+        overlay_level.setOnAction(this::handleOverlayLevel);
+        overlay_shop.setOnAction(this::handleOverlayShop);
 
         Timer timer = new Timer(true);
         timer.scheduleAtFixedRate(new CharacterAnimator(characterController), 10, 20);
     }
 
-    private void onMovementInput(KeyEvent e) {
-        characterController.onKeyPressed(e);
-        
+    private void onMovementInput(KeyEvent ep) {
+        characterController.onKeyPressed(ep);
     }
-    private void onMovementRelease(KeyEvent e) {
-    characterController.onKeyReleased(e);
-}
+    
+    private void onMovementRelease(KeyEvent er) {
+        characterController.onKeyReleased(er);
+    }
+    
+    private void handleOverlayAttack(ActionEvent event) {
+        character_pane.requestFocus();
+    }
+    
+    private void handleOverlayBuild(ActionEvent event) {
+        character_pane.requestFocus();
+    }
+        
+    private void handleOverlayLevel(ActionEvent event) {
+        character_pane.requestFocus();
+    }
+            
+    private void handleOverlayShop(ActionEvent event) {
+        character_pane.requestFocus();
+    }
 
     private SVGPath createSVG(String data) {
         SVGPath svg = new SVGPath();

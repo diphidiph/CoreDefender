@@ -27,7 +27,7 @@ public class CharacterModel {
     }
     
     public void rechts() {
-           dx = 2;
+        dx = 2;
     }
     
     
@@ -37,22 +37,23 @@ public class CharacterModel {
    
       
     public void onder() {
-           dy = 2;
-       
-    
+        dy = 2;
     }    
+    
     public void boven() {
-           dy = -2;          
-    } 
-    public void stopX(){
+        dy = -2;          
+    }
+    
+    public void stopX() {
         dx = 0;
     }
-    public void stopY(){
+    
+    public void stopY() {
         dy = 0;
     }
        
     public void tick() {
-    x += dx;
-    y += dy;
-}
+        x += dx;
+        y += dy;
+    }
 }
