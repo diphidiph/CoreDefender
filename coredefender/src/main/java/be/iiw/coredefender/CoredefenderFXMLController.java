@@ -72,6 +72,7 @@ public class CoredefenderFXMLController {
         character_pane.getChildren().add(char_view);
 
         character_pane.setOnKeyPressed(this::onMovementInput);
+        character_pane.setOnKeyReleased(this::onMovementRelease);
         character_pane.setFocusTraversable(true);
 
         overlay_attack.setOnAction(ae -> character_pane.requestFocus());
@@ -90,12 +91,16 @@ public class CoredefenderFXMLController {
         overlay_shop.setFocusTraversable(false);
 
         Timer timer = new Timer(true);
-        timer.scheduleAtFixedRate(new CharacterAnimator(characterController), 1000, 30);
+        timer.scheduleAtFixedRate(new CharacterAnimator(characterController), 10, 20);
     }
 
     private void onMovementInput(KeyEvent e) {
         characterController.onKeyPressed(e);
+        
     }
+    private void onMovementRelease(KeyEvent e) {
+    characterController.onKeyReleased(e);
+}
 
     private SVGPath createSVG(String data) {
         SVGPath svg = new SVGPath();

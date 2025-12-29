@@ -8,7 +8,7 @@ package be.iiw.coredefender.character;
 public class CharacterModel { 
     private int x, y;
     private int dx,dy;
-    
+        
     public CharacterModel() {
         this(0,0);
     }
@@ -27,31 +27,32 @@ public class CharacterModel {
     }
     
     public void rechts() {
-        if(dx <= 3) {
-            dx++;
-        }
+           dx = 2;
     }
+    
     
     public void links() {
-        if(dx >= -3){
-            dx--;
-        }
+        dx = -2;
     }
-    
+   
+      
     public void onder() {
-        if(dy <= 3) {
-            dy++; 
-        }
-    }
+           dy = 2;
+       
     
+    }    
     public void boven() {
-        if(dy >= -3) {
-            dy--;
-        }
+           dy = -2;          
+    } 
+    public void stopX(){
+        dx = 0;
     }
-    
+    public void stopY(){
+        dy = 0;
+    }
+       
     public void tick() {
-        x += dx;
-        y += dy;
-    }
+    x += dx;
+    y += dy;
+}
 }

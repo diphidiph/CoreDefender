@@ -14,7 +14,7 @@
          <children>
             <Pane layoutX="14.0" layoutY="328.0" prefHeight="60.0" prefWidth="140.0">
                <children>
-                  <Text fx:id="item_wood" layoutX="5.0" layoutY="18.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Wood:" wrappingWidth="79.99999999999977" />
+                  <Text fx:id="item_wood" layoutX="5.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Wood:" wrappingWidth="40.423828125" />
                   <Text fx:id="item_stone" layoutX="5.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Stone:" wrappingWidth="79.99999999999977" />
                   <Text fx:id="item_gold" layoutX="5.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Gold:" wrappingWidth="79.99999999999977" />
                </children>

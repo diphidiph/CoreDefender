@@ -37,13 +37,32 @@ public class CharacterController {
             default:
                 return;
         }
-
-        char_view.update();
+       
     }
+    public void onKeyReleased(KeyEvent es) { 
+        switch (es.getCode()) { 
+            case RIGHT: 
+                char_model.stopX();    
+                break; 
+            case LEFT: 
+                char_model.stopX(); 
+                break; 
+            case UP: 
+                char_model.stopY(); 
+                break; 
+            case DOWN: 
+                char_model.stopY(); 
+                break; 
+            default: 
+                    return; 
+        }
+    }
+
 
     public void tick() {
         char_model.tick();
         char_view.update();
+        
     }
 
     public CharacterView getView() {
