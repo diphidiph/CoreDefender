@@ -4,10 +4,29 @@
  */
 package be.iiw.coredefender.Buildings;
 
+import be.iiw.coredefender.Level.Level;
+
 /**
  *
- * @author Gebruiker
+ * @author Yediael Ratahinarivelo
  */
-public class GoldMine_Model {
+public class GoldMine_Model extends Building {
+    private static final double baseFullHP = 50;
+    private static final double baseIncome = 0.3;
+    private double upgradedIncome;
+    
+    public GoldMine_Model(int x, int y, Level level) {
+        super(x, y, level,baseFullHP);
+        
+        this.upgradedIncome = getIncome();
+        
+    }
+    public final double getIncome(){
+        return getLevel().upgradedIncome(baseIncome, 5);
+    }
+    
+    
+    
+    
     
 }

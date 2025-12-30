@@ -30,11 +30,11 @@ public class EnemyModel {
         
     }
     public final double getUpgradedHealth(){
-        return level.UpgradedHealth(baseMaxHealth, 1.8);
+        return level.upgradedHealth(baseMaxHealth, 1.8);
     }
     
      public final double getUpgradedDamage(){
-        return level.UpgradedDamage(basedamage, 1.8);
+        return level.upgradedDamage(basedamage, 1.8);
     }
     /**
      * @return the x

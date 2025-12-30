@@ -9,31 +9,33 @@ import be.iiw.coredefender.Level.Level;
 
 /**
  *
- * @author Gebruiker
+ * @author Ratahinarivelo Yediael
+ * Dit is de abstracte classe voor alle gebouwen. 
  */
 public abstract class Building {
-    private double baseMaxHealth;
-    private double health;
-    private int x,y;
+    private double baseFullHP; //de normale (niet-geüpgrade) max health.
+    private double HP;
+    private int x,y; // een gebouw heeft een positie waarop hij geplaatst is.
     private Level level;
 
-    public Building(int x, int y, Level level,double baseMaxHealth) {
+    public Building(int x, int y, Level level,double baseFullHP) {
         this.x = x;
         this.y = y;
         this.level= level;
-        this.baseMaxHealth = baseMaxHealth;
+        this.baseFullHP = baseFullHP; 
         
-        this.health = getUpgradedHealth();        
+        
+        this.HP = getUpgradedHealth();//health begint altijd vol (en is afhankelijk van de level)     
         }
     
     public double getBaseMaxHealth(){
-        return baseMaxHealth;
+        return baseFullHP;
     }
     /**
      * @return the health
      */
     public final double getUpgradedHealth() {
-        return level.UpgradedHealth(baseMaxHealth, 2); // x = 2 (groeifactor)
+        return level.upgradedHealth(baseFullHP, 2); // x = 2 (groeifactor)
     }
 
     /**
@@ -59,17 +61,17 @@ public abstract class Building {
     
     public double takeDamage(EnemyModel enemy){         
         double damage = enemy.getUpgradedDamage();
-        health -= damage;
-        if (health < 0){
-            health = 0;
+        HP -= damage;
+        if (HP < 0){
+            HP = 0;
         }
-        return health;
+        return HP;
     }
     public boolean isAlive(){
-        return health > 0;
+        return HP > 0;
     }
     public void getHealed(){
-        health = health + 0.2;
+        HP = HP + 0.2;
     }
     public boolean setUpgrade(){
         switch (level) {
