@@ -4,6 +4,8 @@
  */
 package be.iiw.coredefender.character;
 
+import be.iiw.coredefender.CoredefenderFXMLController;
+import static javafx.scene.input.KeyCode.H;
 import javafx.scene.input.KeyEvent;
 
 /**
@@ -11,13 +13,17 @@ import javafx.scene.input.KeyEvent;
  * @author kinga
  */
 
+
+
 public class CharacterController {
     private final CharacterModel char_model;
     private final CharacterView char_view;
+    private final CoredefenderFXMLController mainController;
 
-    public CharacterController(CharacterModel model, CharacterView view) {
+    public CharacterController(CharacterModel model, CharacterView view, CoredefenderFXMLController mainController) {
         this.char_model = model;
         this.char_view = view;
+        this.mainController = mainController;
     }
 
     public void onKeyPressed(KeyEvent ep) {
@@ -33,6 +39,9 @@ public class CharacterController {
                 break;
             case DOWN:
                 char_model.onder();
+                break;
+            case H:
+                mainController.checkHarvest();
                 break;
             default:
                 return;
@@ -52,7 +61,7 @@ public class CharacterController {
                 break; 
             case DOWN: 
                 char_model.stopY(); 
-                break; 
+                break;
             default: 
                 return; 
         }

@@ -9,6 +9,8 @@ public class CharacterModel {
     private int x, y;
     private int dx,dy;
     private final int v = 6; //velocity
+    private int woodCount = 0;
+    private int stoneCount = 0;
         
     public CharacterModel() {
         this(0,0);
@@ -57,4 +59,21 @@ public class CharacterModel {
         x += dx;
         y += dy;
     }
+         
+    public void addWood(){
+        woodCount++;
+    }
+    public void addStone(){
+        stoneCount++;
+    }
+    
+    public int getWoodCount() {
+        return woodCount;
+    }
+    
+    public int getStoneCount() {
+        return stoneCount;
+    }
+
 }
+

@@ -6,22 +6,30 @@ import be.iiw.coredefender.character.CharacterModel;
 import be.iiw.coredefender.character.CharacterView;
 import be.iiw.coredefender.world.WorldView;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.Timer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.SVGPath;
 import javafx.scene.text.Text;
 
 public class CoredefenderFXMLController {
-
+    
     @FXML
     private ResourceBundle resources;
+    
+    @FXML
+    private final ArrayList<Node> resourcelijst;
 
     @FXML
     private URL location;
@@ -33,11 +41,14 @@ public class CoredefenderFXMLController {
     private Text coordinates;
 
     @FXML
+    private Pane resourcePane;
+
+    @FXML
     private Text item_gold;
 
     @FXML
     private Text item_stone;
-
+    
     @FXML
     private Text item_wood;
 
@@ -63,16 +74,37 @@ public class CoredefenderFXMLController {
     private CharacterController characterController;
     private CharacterModel char_model;
 
+    public CoredefenderFXMLController() {
+        this.resourcelijst = new ArrayList<>();
+    }
+
     @FXML
     void initialize() {
         WorldView world_view = new WorldView(100, 100);
         world_pane.getChildren().add(world_view);
         
-        CharacterModel char_model = new CharacterModel();
+        char_model = new CharacterModel();
         CharacterView char_view = new CharacterView(char_model);
-        characterController = new CharacterController(char_model, char_view);
+        characterController = new CharacterController(char_model, char_view, this);
         character_pane.getChildren().add(char_view);
-
+        
+        Random random = new Random();
+        for(int i = 0; i < 15; i++) {
+            Circle boom = new Circle(40, Color.FORESTGREEN);
+            boom.setLayoutX(random.nextInt(2000));
+            boom.setLayoutY(random.nextInt(1000));
+            boom.setUserData("TREE");
+            
+            Circle steen = new Circle(40, Color.GRAY);
+            steen.setLayoutX(random.nextInt(2000));
+            steen.setLayoutY(random.nextInt(1000));
+            steen.setUserData("STONE");
+            
+            
+            resourcelijst.add(boom);
+            resourcelijst.add(steen);
+            world_pane.getChildren().addAll(boom, steen);
+        }
         character_pane.setOnKeyPressed(this::onMovementInput);
         character_pane.setOnKeyReleased(this::onMovementRelease);
         character_pane.setFocusTraversable(true);
@@ -94,8 +126,20 @@ public class CoredefenderFXMLController {
 
         Timer timer = new Timer(true);
         timer.scheduleAtFixedRate(new CharacterAnimator(characterController, char_model), 10, 20);
+        
+        character_pane.toFront();
+        item_wood.setText("Wood: 0");
+        item_stone.setText("Stone: 0");
+        item_gold.setText("Gold: 0");
+        resourcePane.toFront();
+        overlay_attack.toFront();
+        overlay_build.toFront();
+        overlay_level.toFront();
+        overlay_shop.toFront();
+    
     }
 
+    
     private void onMovementInput(KeyEvent ep) {
         characterController.onKeyPressed(ep);
     }
@@ -128,4 +172,48 @@ public class CoredefenderFXMLController {
         svg.setScaleY(1.2);
         return svg;
     }
+    
+    public void checkHarvest() {
+        javafx.geometry.Point2D spelerInWereld = character_pane.localToScene(char_model.getX(), char_model.getY());
+        javafx.geometry.Point2D puntInWorldPane = world_pane.sceneToLocal(spelerInWereld);
+        
+        double pX = puntInWorldPane.getX();
+        double pY = puntInWorldPane.getY();
+        
+        Node dichtstbijzijnde = null;
+        double kleinsteAfstand = Double.MAX_VALUE;
+        
+        for (Node res : resourcelijst) {
+            if (res instanceof Circle) {
+                Circle c = (Circle) res;
+                
+                double resX = c.getLayoutX() + c.getCenterX();
+                double resY = c.getLayoutY() + c.getCenterY();
+                
+                double dx = pX - resX;
+                double dy = pY - resY;
+                double distance = Math.sqrt(dx * dx + dy * dy);
+                
+                if (distance < 110) { 
+                    if (distance < kleinsteAfstand) {
+                        kleinsteAfstand = distance;
+                        dichtstbijzijnde = res;
+                    }
+                }
+            }
+        }
+        
+        if (dichtstbijzijnde != null) {
+            if ("TREE".equals(dichtstbijzijnde.getUserData())) {
+                char_model.addWood();
+                item_wood.setText("Wood: " + char_model.getWoodCount());
+            } 
+            else if ("STONE".equals(dichtstbijzijnde.getUserData())) {
+                char_model.addStone();
+                item_stone.setText("Stone: " + char_model.getStoneCount());
+            }
+        }
+    }
 }
+    
+    

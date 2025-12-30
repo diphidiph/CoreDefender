@@ -10,16 +10,6 @@
 
 <AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="be.iiw.coredefender.CoredefenderFXMLController">
    <children>
-      <AnchorPane fx:id="world_pane" prefHeight="402.0" prefWidth="600.0">
-         <children>
-            <Pane layoutX="14.0" layoutY="328.0" prefHeight="60.0" prefWidth="140.0">
-               <children>
-                  <Text fx:id="item_wood" layoutX="5.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Wood:" wrappingWidth="40.423828125" />
-                  <Text fx:id="item_stone" layoutX="5.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Stone:" wrappingWidth="79.99999999999977" />
-                  <Text fx:id="item_gold" layoutX="5.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Gold:" wrappingWidth="79.99999999999977" />
-               </children>
-            </Pane>
-         </children></AnchorPane>
       <AnchorPane fx:id="character_pane" layoutX="93.0" layoutY="70.0" prefHeight="260.0" prefWidth="400.0" />
       <Text fx:id="coordinates" layoutX="15.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Coords:" />
       <AnchorPane layoutX="201.0" layoutY="342.0" prefHeight="60.0" prefWidth="185.0">
@@ -44,5 +34,15 @@
             </HBox>
          </children>
       </AnchorPane>
+      <AnchorPane fx:id="world_pane" prefHeight="402.0" prefWidth="600.0">
+         <children>
+            <Pane fx:id="resourcePane" layoutX="14.0" layoutY="328.0" prefHeight="60.0" prefWidth="140.0">
+               <children>
+                  <Text fx:id="item_wood" layoutX="5.0" layoutY="18.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Wood:" wrappingWidth="70.8238525390625" />
+                  <Text fx:id="item_stone" layoutX="5.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Stone:" wrappingWidth="79.99999999999977" />
+                  <Text fx:id="item_gold" layoutX="5.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Gold:" wrappingWidth="79.99999999999977" />
+               </children>
+            </Pane>
+         </children></AnchorPane>
    </children>
 </AnchorPane>
