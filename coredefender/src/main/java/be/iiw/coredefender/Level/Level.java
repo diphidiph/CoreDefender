@@ -21,8 +21,12 @@ public enum Level {
         this.exponent = exponent; // de datamember exponent wordt gelijk de parameter die bij een Level object ingevuld wordt 
     }
 
-    public double nieuwMaxHealth(int baseMaxHealth, int a) { // methode voor nieuwe gelevelde Health, vraagt de volle health in het begin en grondtal a  
+    public double UpgradedHealth(double baseMaxHealth, double a) { // methode voor nieuwe gelevelde Health, vraagt de basis Maxhealth en grondtal a 
         return (baseMaxHealth * Math.pow(a, exponent)); 
+    }
+    
+     public double UpgradedDamage(double baseDamage, double a) { // methode voor nieuwe gelevelde Health, vraagt de basis Maxhealth en grondtal a 
+        return (baseDamage * Math.pow(a, exponent)); 
     }
 }
 

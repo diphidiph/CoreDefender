@@ -4,8 +4,8 @@
  */
 package be.iiw.coredefender.Buildings;
 
+import be.iiw.coredefender.Enemy.EnemyModel;
 import be.iiw.coredefender.Level.Level;
-import be.iiw.coredefender.Level.LevelEffect;
 
 /**
  *
@@ -23,18 +23,17 @@ public abstract class Building {
         this.level= level;
         this.baseMaxHealth = baseMaxHealth;
         
-        this.health = getLeveledHealth();{
-        return level.(baseMaxHealth, 2); // x = 2 (groeifactor)
-    }
-    }
-    public int getBaseMaxHealth(){
+        this.health = getUpgradedHealth();        
+        }
+    
+    public double getBaseMaxHealth(){
         return baseMaxHealth;
     }
     /**
      * @return the health
      */
-    public int getLeveledHealth() {
-        
+    public final double getUpgradedHealth() {
+        return level.UpgradedHealth(baseMaxHealth, 2); // x = 2 (groeifactor)
     }
 
     /**
@@ -58,10 +57,30 @@ public abstract class Building {
         return level;
     }
     
-     public int getdamage(){
-        int damage = Enemy.getdamage();
+    public double takeDamage(EnemyModel enemy){         
+        double damage = enemy.getUpgradedDamage();
         health -= damage;
-        if (health < 0) health = 0;
+        if (health < 0){
+            health = 0;
+        }
         return health;
+    }
+    public boolean isAlive(){
+        return health > 0;
+    }
+    public void getHealed(){
+        health = health + 0.2;
+    }
+    public boolean setUpgrade(){
+        switch (level) {
+            case level_1:
+                level = Level.level_2;
+                return true;
+            case level_2:
+                level = Level.level_3;
+                return true;
+            default:
+                return false;
+        }
     }
 }

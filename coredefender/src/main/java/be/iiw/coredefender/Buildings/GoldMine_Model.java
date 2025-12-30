@@ -4,26 +4,10 @@
  */
 package be.iiw.coredefender.Buildings;
 
-import be.iiw.coredefender.Level.Level;
-
-public class StashModel extends Building {
-    
-        
-    public StashModel(int x,int y){
-                               
-               
-               
-    }
-
- 
-    
-   
-    
-
-    
-   
-
-    
-    
+/**
+ *
+ * @author Gebruiker
+ */
+public class GoldMine_Model {
     
 }
