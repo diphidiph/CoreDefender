@@ -20,8 +20,6 @@
                </children>
             </Pane>
          </children></AnchorPane>
-      <AnchorPane fx:id="character_pane" layoutX="93.0" layoutY="70.0" prefHeight="260.0" prefWidth="400.0" />
-      <Text fx:id="coordinates" layoutX="15.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Coords:" />
       <AnchorPane layoutX="201.0" layoutY="342.0" prefHeight="60.0" prefWidth="185.0">
          <children>
             <HBox fx:id="overlay_hbox" prefHeight="30.0" prefWidth="176.0" spacing="5.0">

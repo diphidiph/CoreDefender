@@ -27,12 +27,6 @@ public class CoredefenderFXMLController {
     private URL location;
 
     @FXML
-    private AnchorPane character_pane;
-
-    @FXML
-    private Text coordinates;
-
-    @FXML
     private Text item_gold;
 
     @FXML
@@ -60,6 +54,7 @@ public class CoredefenderFXMLController {
     private AnchorPane world_pane;
     
     @FXML
+    private AnchorPane character_pane;
     private CharacterController characterController;
     private CharacterModel char_model;
 
@@ -68,14 +63,27 @@ public class CoredefenderFXMLController {
         WorldView world_view = new WorldView(100, 100);
         world_pane.getChildren().add(world_view);
         
-        CharacterModel char_model = new CharacterModel();
+        character_pane = new AnchorPane();
+        character_pane.setPickOnBounds(false);
+        character_pane.setFocusTraversable(true);
+        
+        AnchorPane.setTopAnchor(character_pane, 0.0);
+        AnchorPane.setBottomAnchor(character_pane, 0.0);
+        AnchorPane.setLeftAnchor(character_pane, 0.0);
+        AnchorPane.setRightAnchor(character_pane, 0.0);
+        
+        world_pane.getChildren().add(character_pane);
+        
+        char_model = new CharacterModel();
         CharacterView char_view = new CharacterView(char_model);
         characterController = new CharacterController(char_model, char_view);
         character_pane.getChildren().add(char_view);
 
+        character_pane.setPickOnBounds(true);
         character_pane.setOnKeyPressed(this::onMovementInput);
         character_pane.setOnKeyReleased(this::onMovementRelease);
-        character_pane.setFocusTraversable(true);
+        character_pane.setOnMouseMoved(characterController::onMouseMoved);
+        character_pane.setOnMouseDragged(characterController::onMouseMoved);
         
         overlay_attack.setGraphic(createSVG("M13 .5c0-.276-.226-.506-.498-.465-1.703.257-2.94 2.012-3 8.462a.5.5 0 0 0 .498.5c.56.01 1 .13 1 1.003v5.5a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5z"));
         overlay_build.setGraphic(createSVG("M15.528 2.973a.75.75 0 0 1 .472.696v8.662a.75.75 0 0 1-.472.696l-7.25 2.9a.75.75 0 0 1-.557 0l-7.25-2.9A.75.75 0 0 1 0 12.331V3.669a.75.75 0 0 1 .471-.696L7.443.184l.01-.003.268-.108a.75.75 0 0 1 .558 0l.269.108.01.003zM10.404 2 4.25 4.461 1.846 3.5 1 3.839v.4l6.5 2.6v7.922l.5.2.5-.2V6.84l6.5-2.6v-.4l-.846-.339L8 5.961 5.596 5l6.154-2.461z"));

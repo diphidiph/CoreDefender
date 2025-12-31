@@ -15,7 +15,7 @@ import javafx.scene.shape.Rectangle;
 public class WorldView extends Region {
     private int width;
     private int height;
-    private final int tileSize = 64;
+    private final int tileSize = 36;
 
     public WorldView(int width, int height) {
         this.width = width;

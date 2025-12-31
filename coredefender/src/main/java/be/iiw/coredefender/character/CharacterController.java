@@ -4,7 +4,9 @@
  */
 package be.iiw.coredefender.character;
 
+import javafx.geometry.Point2D;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 
 /**
  *
@@ -14,6 +16,9 @@ import javafx.scene.input.KeyEvent;
 public class CharacterController {
     private final CharacterModel char_model;
     private final CharacterView char_view;
+    
+    private double mouseSceneX;
+    private double mouseSceneY;
 
     public CharacterController(CharacterModel model, CharacterView view) {
         this.char_model = model;
@@ -57,9 +62,27 @@ public class CharacterController {
                 return; 
         }
     }
+    
+    public void onMouseMoved(MouseEvent me) {
+        var charPos = char_view.localToScene(0, 0);
+        
+        mouseSceneX = me.getSceneX();
+        mouseSceneY = me.getSceneY();
+
+        double dx = me.getSceneX() - charPos.getX();
+        double dy = me.getSceneY() - charPos.getY();
+
+        char_model.setRotation(Math.toDegrees(Math.atan2(dy, dx)));
+    }
 
     public void update() {
-            char_view.update();
+        Point2D charPos = char_view.localToScene(0, 0);
+
+        double dx = mouseSceneX - charPos.getX();
+        double dy = mouseSceneY - charPos.getY();
+
+        char_model.setRotation(Math.toDegrees(Math.atan2(dy, dx)));
+        char_view.update();
     }
 
     public CharacterView getView() {

@@ -8,7 +8,8 @@ package be.iiw.coredefender.character;
 public class CharacterModel { 
     private int x, y;
     private int dx,dy;
-    private final int v = 6; //velocity
+    private double rotation;
+    private final int v = 4; //velocity
         
     public CharacterModel() {
         this(0,0);
@@ -19,12 +20,20 @@ public class CharacterModel {
         this.y = y;
     }
     
+    public void setRotation(double rotation) {
+        this.rotation = rotation;
+    }
+    
     public int getX() {
         return x;
     }
     
     public int getY() {
         return y;
+    }
+    
+    public double getRotation() {
+        return rotation;
     }
     
     public void rechts() {
