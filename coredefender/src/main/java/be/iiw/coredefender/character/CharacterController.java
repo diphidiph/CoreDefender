@@ -76,13 +76,17 @@ public class CharacterController {
     }
 
     public void update() {
+        updateRotation();
+        char_view.update();
+    }
+    
+    private void updateRotation() {
         Point2D charPos = char_view.localToScene(0, 0);
 
         double dx = mouseSceneX - charPos.getX();
         double dy = mouseSceneY - charPos.getY();
 
         char_model.setRotation(Math.toDegrees(Math.atan2(dy, dx)));
-        char_view.update();
     }
 
     public CharacterView getView() {
