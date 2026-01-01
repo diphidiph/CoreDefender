@@ -12,6 +12,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.Timer;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
@@ -59,20 +60,10 @@ public class CoredefenderFXMLController {
             overlayController = new OverlayController();
             buildOverlayController = new BuildOverlayController();
 
-            overlayController.setBuildAction(event -> {
-                Stage stage = (Stage) world_pane.getScene().getWindow();
-                buildOverlayController.toggle(world_pane, stage);
-                character_pane.requestFocus();
-            });
-
-            overlayController.setPetsAction(event -> {
-                Stage stage = (Stage) world_pane.getScene().getWindow();
-                petsController.toggle(world_pane, stage);
-                character_pane.requestFocus();
-            });
-
-            overlayController.setAttackAction(event -> character_pane.requestFocus());
-            overlayController.setLevelAction(event -> character_pane.requestFocus());
+            overlayController.setBuildAction(this::onBuild);
+            overlayController.setPetsAction(this::onPets);
+            overlayController.setAttackAction(this::onAttack);
+            overlayController.setLevelAction(this::onLevel);
 
             overlayController.show(world_pane, (Stage) world_pane.getScene().getWindow());
         });
@@ -117,10 +108,7 @@ public class CoredefenderFXMLController {
     private void startAnimation() {
         Timer timer = new Timer(true);
         timer.scheduleAtFixedRate(
-            new CharacterAnimator(characterController, char_model),
-            10,
-            20
-        );
+            new CharacterAnimator(characterController, char_model),10,20);
     }
 
     private void onMovementInput(KeyEvent ep) {
@@ -130,4 +118,25 @@ public class CoredefenderFXMLController {
     private void onMovementRelease(KeyEvent er) {
         characterController.onKeyReleased(er);
     }
+    
+    private void onBuild(ActionEvent event) {
+        Stage stage = (Stage) world_pane.getScene().getWindow();
+        buildOverlayController.toggle(world_pane, stage);
+        character_pane.requestFocus();
+    }
+
+    private void onPets(ActionEvent event) {
+        Stage stage = (Stage) world_pane.getScene().getWindow();
+        petsController.toggle(world_pane, stage);
+        character_pane.requestFocus();
+    }
+
+    private void onAttack(ActionEvent event) {
+        character_pane.requestFocus();
+    }
+
+    private void onLevel(ActionEvent event) {
+        character_pane.requestFocus();
+    }
+
 }
