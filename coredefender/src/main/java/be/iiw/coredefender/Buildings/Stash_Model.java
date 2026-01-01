@@ -8,11 +8,11 @@ import be.iiw.coredefender.Level.Level;
 
 public class Stash_Model extends Building {
     private double goldAmount; 
-    
+    private static final double baseFullHP = 200;
     
         
-     public Stash_Model(int x, int y, Level level,double baseMaxHealth) {
-        super(x, y, level, 200); // baseMaxHealth = 200
+     public Stash_Model(int x, int y, Level level) {
+        super(x, y, level, baseFullHP); 
         this.goldAmount = 0;
     }
     
@@ -20,10 +20,10 @@ public class Stash_Model extends Building {
         goldAmount += income;
         }
     public double getGoldAmount(){
-        return goldAmount;
-                       
+        return goldAmount;                       
         }
-    
+         
+      
     
     
 }

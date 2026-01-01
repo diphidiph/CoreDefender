@@ -25,7 +25,7 @@ public abstract class Building {
         this.baseFullHP = baseFullHP; 
         
         
-        this.HP = getUpgradedHealth();//health begint altijd vol (en is afhankelijk van de level)     
+        this.HP = getMaxHealth();//health begint altijd vol (en is afhankelijk van de level)     
         }
     
     public double getBaseMaxHealth(){
@@ -34,7 +34,7 @@ public abstract class Building {
     /**
      * @return the health
      */
-    public final double getUpgradedHealth() {
+    public final double getMaxHealth() {
         return level.upgradedHealth(baseFullHP, 2); // x = 2 (groeifactor)
     }
 
