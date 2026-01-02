@@ -4,6 +4,7 @@
  */
 package be.iiw.coredefender.character;
 
+import be.iiw.coredefender.CoredefenderFXMLController;
 import java.util.TimerTask;
 import javafx.application.Platform;
 
@@ -13,18 +14,22 @@ import javafx.application.Platform;
  */
 
 public class CharacterAnimator extends TimerTask {
-
     private final CharacterController controller;
-    private CharacterModel char_model;
+    private final CharacterModel char_model;
+    private final CoredefenderFXMLController cameraUpdate;
 
-    public CharacterAnimator(CharacterController controller,CharacterModel char_model) {
+    public CharacterAnimator(CharacterController controller, CharacterModel char_model, CoredefenderFXMLController cameraUpdate) {
         this.controller = controller;
         this.char_model = char_model;
+        this.cameraUpdate = cameraUpdate;
     }
 
     @Override
     public void run() {
         char_model.tick();
-        Platform.runLater(controller::update);
+        Platform.runLater(() -> {
+            controller.update();
+            cameraUpdate.updateCamera();
+        });
     }
 }
