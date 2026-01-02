@@ -50,9 +50,12 @@ public class CoredefenderFXMLController {
     private OverlayController overlayController;
     private BuildOverlayController buildOverlayController;
     private BuildingController buildingController;
+    private WorldController worldController;
 
     @FXML
     void initialize() {
+        overlayController = new OverlayController();
+
         createWorld();
         createCharacter();
         createPets();
@@ -60,17 +63,11 @@ public class CoredefenderFXMLController {
         startAnimation();
 
         Platform.runLater(() -> {
-            overlayController = new OverlayController();
             buildOverlayController = new BuildOverlayController();
             
             buildingController = new BuildingController(world_pane);
             buildOverlayController.setOnGoldStash(e -> buildingController.selectBuilding(BuildingType.GOLDSTASH));
-
             buildOverlayController.setOnGoldMine(e -> buildingController.selectBuilding(BuildingType.GOLDMINE));
-           
-            //buildOverlayController.setOnCanon(e -> buildingController.selectBuilding(BuildingType.CANON));
-            //buildOverlayController.setOnWALL(e -> buildingController.selectBuilding(BuildingType.WALL));
-            
 
             overlayController.setBuildAction(this::onBuild);
             overlayController.setPetsAction(this::onPets);
@@ -82,7 +79,8 @@ public class CoredefenderFXMLController {
     }
 
     private void createWorld() {
-        WorldController worldController = new WorldController(100, 100);
+        // Assign to class field, not local variable
+        worldController = new WorldController(100, 100);
         world_pane.getChildren().add(worldController.getView());
     }
 
@@ -100,7 +98,8 @@ public class CoredefenderFXMLController {
 
         char_model = new CharacterModel();
         CharacterView char_view = new CharacterView(char_model);
-        characterController = new CharacterController(char_model, char_view);
+
+        characterController = new CharacterController(char_model, char_view, worldController, overlayController);
 
         character_pane.getChildren().add(char_view);
     }
@@ -150,5 +149,4 @@ public class CoredefenderFXMLController {
     private void onLevel(ActionEvent event) {
         character_pane.requestFocus();
     }
-
 }

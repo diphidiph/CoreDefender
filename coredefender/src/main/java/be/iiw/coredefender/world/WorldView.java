@@ -5,6 +5,7 @@
 package be.iiw.coredefender.world;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
 /**
@@ -13,8 +14,8 @@ import javafx.scene.shape.Rectangle;
  */
 
 public class WorldView extends Region {
-    private int width;
-    private int height;
+    private final int width;
+    private final int height;
     private final int tileSize = 36;
 
     public WorldView(int width, int height) {
@@ -24,9 +25,7 @@ public class WorldView extends Region {
         renderTiles();
     }
 
-    public void renderTiles() {
-        getChildren().clear();
-
+    private void renderTiles() {
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
                 Rectangle tile = new Rectangle(tileSize, tileSize);
@@ -34,9 +33,26 @@ public class WorldView extends Region {
                 tile.setStroke(Color.web("#3f4f39"));
                 tile.setX(x * tileSize);
                 tile.setY(y * tileSize);
-
                 getChildren().add(tile);
             }
+        }
+    }
+
+    public void renderResources(Iterable<ResourceModel> resources) {
+        for (ResourceModel r : resources) {
+            Circle c = new Circle(64);
+            c.setLayoutX(r.getX());
+            c.setLayoutY(r.getY());
+
+            if (r.getType() == ResourceType.TREE) {
+                c.setFill(Color.FORESTGREEN);
+                c.setUserData("TREE");
+            } else {
+                c.setFill(Color.GRAY);
+                c.setUserData("STONE");
+            }
+
+            getChildren().add(c);
         }
     }
 }

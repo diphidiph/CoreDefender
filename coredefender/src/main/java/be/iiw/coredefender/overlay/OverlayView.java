@@ -1,6 +1,7 @@
 package be.iiw.coredefender.overlay;
 
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -15,6 +16,10 @@ public class OverlayView {
 
     private final AnchorPane overlayPane;
     private final Button attackButton, buildButton, levelButton, petsButton;
+    
+    private final Label woodLabel;
+    private final Label stoneLabel;
+    private final Label goldLabel;
 
     public OverlayView() {
         overlayPane = new AnchorPane();
@@ -53,6 +58,25 @@ public class OverlayView {
         petsButton.setLayoutY(centerY);
 
         overlayPane.getChildren().addAll(attackButton, buildButton, levelButton, petsButton);
+        
+        woodLabel = new Label("Wood: 0");
+        stoneLabel = new Label("Stone: 0");
+        goldLabel = new Label("Gold: 0");
+
+        woodLabel.setTextFill(Color.WHITE);
+        stoneLabel.setTextFill(Color.WHITE);
+        goldLabel.setTextFill(Color.WHITE);
+
+        woodLabel.setLayoutX(10);
+        woodLabel.setLayoutY(height + 5);
+
+        stoneLabel.setLayoutX(100);
+        stoneLabel.setLayoutY(height + 5);
+
+        goldLabel.setLayoutX(200);
+        goldLabel.setLayoutY(height + 5);
+
+        overlayPane.getChildren().addAll(woodLabel, stoneLabel, goldLabel);
     }
 
     private Button createButton(String svgData) {
@@ -85,5 +109,11 @@ public class OverlayView {
     
     public Button getPetsButton() {
         return petsButton;
+    }
+    
+    public void updateInventory(int wood, int stone, int gold) {
+        woodLabel.setText("Wood: " + wood);
+        stoneLabel.setText("Stone: " + stone);
+        goldLabel.setText("Gold: " + gold);
     }
 }

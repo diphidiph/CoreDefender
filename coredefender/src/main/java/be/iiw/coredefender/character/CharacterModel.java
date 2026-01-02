@@ -5,65 +5,52 @@
 package be.iiw.coredefender.character;
 
 /** * * @author kinga */ 
+
 public class CharacterModel { 
     private int x, y;
-    private int dx,dy;
+    private int dx, dy;
     private double rotation;
-    private final int v = 4; //velocity
-        
+    private final int v = 4;
+
+    private int wood = 0;
+    private int stone = 0;
+    private int gold = 0;
+
     public CharacterModel() {
         this(0,0);
     }
-    
+
     public CharacterModel(int x, int y) {
         this.x = x;
         this.y = y;
     }
-    
+
     public void setRotation(double rotation) {
         this.rotation = rotation;
     }
-    
-    public int getX() {
-        return x;
-    }
-    
-    public int getY() {
-        return y;
-    }
-    
-    public double getRotation() {
-        return rotation;
-    }
-    
-    public void rechts() {
-        dx = v;
-    }
-    
-    
-    public void links() {
-        dx = -v;
-    }
-   
-      
-    public void onder() {
-        dy = v;
-    }    
-    
-    public void boven() {
-        dy = -v;          
-    }
-    
-    public void stopX() {
-        dx = 0;
-    }
-    
-    public void stopY() {
-        dy = 0;
-    }
-       
+
+    public int getX() { return x; }
+    public int getY() { return y; }
+    public double getRotation() { return rotation; }
+
+    public void rechts() { dx = v; }
+    public void links() { dx = -v; }
+    public void onder() { dy = v; }
+    public void boven() { dy = -v; }
+
+    public void stopX() { dx = 0; }
+    public void stopY() { dy = 0; }
+
     public void tick() {
         x += dx;
         y += dy;
     }
+
+    public void addWood() { wood++; }
+    public void addStone() { stone++; }
+    public void addGold() { gold++; }
+
+    public int getWoodCount() { return wood; }
+    public int getStoneCount() { return stone; }
+    public int getGoldCount() { return gold; }
 }

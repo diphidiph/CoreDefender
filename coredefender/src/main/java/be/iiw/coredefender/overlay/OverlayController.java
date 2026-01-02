@@ -1,5 +1,6 @@
 package be.iiw.coredefender.overlay;
 
+import be.iiw.coredefender.character.CharacterModel;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.layout.AnchorPane;
@@ -11,11 +12,18 @@ import javafx.stage.Stage;
  */
 
 public class OverlayController {
-
     private final OverlayView overlayView;
 
     public OverlayController() {
         overlayView = new OverlayView();
+    }
+    
+    public void updateInventory(CharacterModel model) {
+        overlayView.updateInventory(
+            model.getWoodCount(),
+            model.getStoneCount(),
+            model.getGoldCount()
+        );
     }
 
     public AnchorPane getView() {
