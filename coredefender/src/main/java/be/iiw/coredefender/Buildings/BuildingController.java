@@ -11,59 +11,124 @@ import be.iiw.coredefender.Buildings.StashView;
 import be.iiw.coredefender.Buildings.Stash_Model;
 import be.iiw.coredefender.Level.Level;
 import java.util.ArrayList;
+import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.SVGPath;
+
 
 /**
  *
  * @author Gebruiker
  */
-public class BuildingController {
-    
-        // Voor Stash (max 1)
+public class BuildingController {   
+
+ 
+    private BuildingType selectedBuilding = null; //we starten met geen type
+    private AnchorPane worldPane;
+    // Voor Stash (max 1)
     private Stash_Model stashModel;
     private StashView stashView;
 
     // Voor Gold Mines (max 6)
-    private final int MAX_MINES = 6;
+    private GoldMineView mineView;
+    private GoldMine_Model mineModel;
+    private static final int MAX_MINES = 6;
     private final ArrayList<GoldMine_Model> mineModels = new ArrayList<>();
     private final ArrayList<GoldMineView> mineViews = new ArrayList<>();
-
-    // Geselecteerd gebouw
-    private BuildingType selectedBuilding = null;
     
+    // Voor Canons (max 8)
+    //private static final int MAX_CANONS = 8;
+    //private final ArrayList<Canon_Model> canonModels = new ArrayList<>();
+    //private final ArrayList<CanonView> canonViews = new ArrayList<>();
     
-    private void placeBuilding(MouseEvent event) {
-    if (selectedBuilding == null) return;
-
-    int x = (int) event.getX();
-    int y = (int) event.getY();
-
-    switch (BuildingType) {
-        case STASH:
-            if (stashModel == null) { // max 1 stash
-                stashModel = new Stash_Model(x, y, Level.level_1);
-                stashView = new StashView(stashModel);
-                world_pane.getChildren().add(stashView);
-            }
-            break;
-
-        case GOLD_MINE:
-            if (mineModels.size() < MAX_MINES) { // max 6
-                GoldMine_Model mineModel = new GoldMine_Model(x, y, Level.level_1);
-                GoldMineView mineView = new GoldMineView(mineModel);
-                mineModels.add(mineModel);
-                mineViews.add(mineView);
-                world_pane.getChildren().add(mineView);
-            }
-            break;
+    // Voor Walls (max 200)
+    //private static final int MAX_WALLS = 200;
+    //private final ArrayList<Wall_Model> wallModels = new ArrayList<>();
+    //private final ArrayList<WallView> wallViews = new ArrayList<>();
+    
+      /**
+       * Constructor (anchorpane meegeven, en 4 knoppen voor elke type gebouw)
+       * */
+        public BuildingController(AnchorPane worldPane) {
+        this.worldPane = worldPane;                
+        BuildingWorldClickHandler();
     }
-
-    // optioneel: deselecteer na plaatsing
-    selectedBuilding = null;
-    }
+        /**
+       * Originele Methode om juiste gebouw aan te klikken. (Was niet ideaal omdat de controller in de view moest zoeken voor de juiste Buttons)
+       
+    private void BuildingButtonHandlers(){
+        goldStashButton.setOnAction(e -> {
+            selectedBuilding = BuildingType.GOLDSTASH;
+        });
+         goldMineButton.setOnAction(e -> {
+            selectedBuilding = BuildingType.GOLDMINE;
+        });
+        /** canonButton.setOnAction(e -> {
+            selectedBuilding = BuildingType.CANON;
+        });
+        * wallButton.setOnAction(e -> {
+            selectedBuilding = BuildingType.WALL;
+        });     
         
+        **/
+        
+    public void selectBuilding(BuildingType type) {
+    selectedBuilding = type;
+    }
+      
+    /**
+       * Methode om (gebouwplaatsting) aan te roepen wanneer er in de world geklikt wordt.
+       * */    
+    private void BuildingWorldClickHandler(){
+        worldPane.setOnMouseClicked(this::placeBuilding);
+    }
+    
+     /**
+       * Methode om een gebouw te plaatsen met een muis klik op een bepaalde positie 
+       * */ 
+    private void placeBuilding(MouseEvent event){
+        if (selectedBuilding == null) return;
+        
+        int x = (int) event.getX();
+        int y = (int) event.getY();
+        
+         switch (selectedBuilding) {
+
+            case GOLDSTASH:
+                if (stashModel == null) {
+                   
+                    stashModel = new Stash_Model(x, y, Level.level_1);
+                    stashView = new StashView(stashModel);
+
+                    worldPane.getChildren().add(stashView);
+                }
+                break;
+
+            case GOLDMINE:
+                if (mineModels.size() < MAX_MINES) {
+                    
+                    mineModel = new GoldMine_Model(x, y, Level.level_1);
+                    mineView = new GoldMineView(mineModel);
+
+                    mineModels.add(mineModel);
+                    mineViews.add(mineView);
+
+                    worldPane.getChildren().add(mineView);
+                }
+                break;
+
+            default:
+                break;
+        }
+
+        selectedBuilding = null;
+        
+    }
+    
+    
+    
+    
        
       
         

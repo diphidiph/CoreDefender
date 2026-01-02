@@ -3,15 +3,19 @@ package be.iiw.coredefender.overlay.buildoverlay;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+
 /**
  *
- * @author kinga
+ * @author M. Arthur en R. Yediael
  */
 
 public class BuildOverlayController {
 
     private final BuildOverlayView view;
     private boolean visible = false;
+    
 
     public BuildOverlayController() {
         view = new BuildOverlayView();
@@ -20,7 +24,17 @@ public class BuildOverlayController {
     public AnchorPane getView() {
         return view.getView();
     }
+    public void setOnGoldStash(EventHandler<ActionEvent> handler) {
+        view.getBuildGoldstashButton().setOnAction(handler);
+    }
+    
+    public void setOnGoldMine(EventHandler<ActionEvent> handler) {
+        view.getBuildGoldMineButton().setOnAction(handler);
+    }
+    
 
+    
+    
     public void toggle(AnchorPane parentPane, Stage stage) {
         if(visible) {
             parentPane.getChildren().remove(view.getView());

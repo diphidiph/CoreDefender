@@ -1,5 +1,7 @@
 package be.iiw.coredefender;
 
+import be.iiw.coredefender.Buildings.BuildingController;
+import be.iiw.coredefender.Buildings.BuildingType;
 import be.iiw.coredefender.character.CharacterAnimator;
 import be.iiw.coredefender.character.CharacterController;
 import be.iiw.coredefender.character.CharacterModel;
@@ -47,6 +49,7 @@ public class CoredefenderFXMLController {
     private PetsController petsController;
     private OverlayController overlayController;
     private BuildOverlayController buildOverlayController;
+    private BuildingController buildingController;
 
     @FXML
     void initialize() {
@@ -59,6 +62,15 @@ public class CoredefenderFXMLController {
         Platform.runLater(() -> {
             overlayController = new OverlayController();
             buildOverlayController = new BuildOverlayController();
+            
+            buildingController = new BuildingController(world_pane);
+            buildOverlayController.setOnGoldStash(e -> buildingController.selectBuilding(BuildingType.GOLDSTASH));
+
+            buildOverlayController.setOnGoldMine(e -> buildingController.selectBuilding(BuildingType.GOLDMINE));
+           
+            //buildOverlayController.setOnCanon(e -> buildingController.selectBuilding(BuildingType.CANON));
+            //buildOverlayController.setOnWALL(e -> buildingController.selectBuilding(BuildingType.WALL));
+            
 
             overlayController.setBuildAction(this::onBuild);
             overlayController.setPetsAction(this::onPets);
