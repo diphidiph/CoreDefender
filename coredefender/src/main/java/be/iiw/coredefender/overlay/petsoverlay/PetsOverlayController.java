@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package be.iiw.coredefender.pets;
+package be.iiw.coredefender.overlay.petsoverlay;
 
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -12,13 +12,13 @@ import javafx.stage.Stage;
  * @author kinga
  */
 
-public class PetsController {
+public class PetsOverlayController {
 
-    private final PetsView petsView;
+    private final PetsOverlayView petsView;
     private boolean visible = false;
 
-    public PetsController() {
-        petsView = new PetsView();
+    public PetsOverlayController() {
+        petsView = new PetsOverlayView();
     }
 
     public AnchorPane getView() {

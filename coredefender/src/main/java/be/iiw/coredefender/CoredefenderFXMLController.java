@@ -8,7 +8,7 @@ import be.iiw.coredefender.character.CharacterModel;
 import be.iiw.coredefender.character.CharacterView;
 import be.iiw.coredefender.overlay.OverlayController;
 import be.iiw.coredefender.overlay.buildoverlay.BuildOverlayController;
-import be.iiw.coredefender.pets.PetsController;
+import be.iiw.coredefender.overlay.petsoverlay.PetsOverlayController;
 import be.iiw.coredefender.world.WorldController;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -46,7 +46,7 @@ public class CoredefenderFXMLController {
 
     private CharacterController characterController;
     private CharacterModel char_model;
-    private PetsController petsController;
+    private PetsOverlayController petsController;
     private OverlayController overlayController;
     private BuildOverlayController buildOverlayController;
     private BuildingController buildingController;
@@ -105,7 +105,7 @@ public class CoredefenderFXMLController {
     }
     
     private void createPets() {
-        petsController = new PetsController();
+        petsController = new PetsOverlayController();
     }
 
     private void setupInput() {

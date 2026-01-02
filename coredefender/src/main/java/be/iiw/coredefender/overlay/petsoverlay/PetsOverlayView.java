@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package be.iiw.coredefender.pets;
+package be.iiw.coredefender.overlay.petsoverlay;
 
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
@@ -12,11 +12,11 @@ import javafx.scene.shape.Rectangle;
  *
  * @author kinga
  */
-public class PetsView {
+public class PetsOverlayView {
 
     private final AnchorPane petsPane;
 
-    public PetsView() {
+    public PetsOverlayView() {
         petsPane = new AnchorPane();
         petsPane.setPrefSize(600, 400);
 
