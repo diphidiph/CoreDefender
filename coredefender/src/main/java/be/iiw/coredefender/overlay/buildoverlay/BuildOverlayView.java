@@ -74,8 +74,8 @@ public class BuildOverlayView {
         SVGPath svg = new SVGPath();
         svg.setContent(svgData);
         
-        svg.setScaleX(1);
-        svg.setScaleY(1);
+        svg.setScaleX(1.2);
+        svg.setScaleY(1.2);
         btn.setGraphic(svg);
         btn.setFocusTraversable(false);
         return btn;
