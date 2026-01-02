@@ -125,6 +125,18 @@ public class BuildingController {
         selectedBuilding = null;
         
     }
+    public void update() {
+
+        // Stash (maar 1)
+        if (stashView != null) {
+            stashView.update();
+            }
+
+        // Alle gold mines
+        for (GoldMineView view : mineViews) {
+            view.update();
+        }
+    }
     
     
     

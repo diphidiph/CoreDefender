@@ -2,7 +2,7 @@ package be.iiw.coredefender;
 
 import be.iiw.coredefender.Buildings.BuildingController;
 import be.iiw.coredefender.Buildings.BuildingType;
-import be.iiw.coredefender.character.CharacterAnimator;
+
 import be.iiw.coredefender.character.CharacterController;
 import be.iiw.coredefender.character.CharacterModel;
 import be.iiw.coredefender.character.CharacterView;
@@ -12,7 +12,7 @@ import be.iiw.coredefender.overlay.petsoverlay.PetsOverlayController;
 import be.iiw.coredefender.world.WorldController;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.Timer;
+
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -155,6 +155,7 @@ public class CoredefenderFXMLController {
             if (buildingController != null) {
                 buildingController.update();
             }
+            updateCamera();
         }
 
     }.start();
