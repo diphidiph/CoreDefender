@@ -84,7 +84,6 @@ public class CoredefenderFXMLController {
     }
 
     private void createWorld() {
-        // Assign to class field, not local variable
         worldController = new WorldController(100, 100);
         world_pane.getChildren().add(worldController.getView());
     }
@@ -126,7 +125,7 @@ public class CoredefenderFXMLController {
     private void startAnimation() {
         Timer timer = new Timer(true);
         timer.scheduleAtFixedRate(
-            new CharacterAnimator(characterController, char_model),10,20);
+            new CharacterAnimator(characterController, char_model, this),10,20);
     }
     
     
@@ -188,5 +187,44 @@ public class CoredefenderFXMLController {
 
     private void onLevel(ActionEvent event) {
         character_pane.requestFocus();
+    }
+    
+    public void updateCamera() {
+        // Midden van character
+        double charCenterX = char_model.getX() + characterController.getView().getWidth() / 2;
+        double charCenterY = char_model.getY() + characterController.getView().getHeight() / 2;
+
+        double screenWidth = world_pane.getScene().getWidth();
+        double screenHeight = world_pane.getScene().getHeight();
+
+        // Offset berekenen (zodat character in het midden blijft)
+        double offsetX = -(charCenterX - screenWidth / 2);
+        double offsetY = -(charCenterY - screenHeight / 2);
+
+        double worldWidth = worldController.getView().getWidth();
+        double worldHeight = worldController.getView().getHeight();
+
+        // Beperk offsetX zodat character niet buiten de wereld kan
+        if (offsetX > 0) {
+            offsetX = 0;
+        }
+        if (offsetX < screenWidth - worldWidth) {
+            offsetX = screenWidth - worldWidth;
+        }
+
+        // Beperk offsetY zodat character niet buiten de wereld kan
+        if (offsetY > 0) {
+            offsetY = 0;
+        }
+        if (offsetY < screenHeight - worldHeight) {
+            offsetY = screenHeight - worldHeight;
+        }
+
+        // Zet de worldController en character_pane op de juiste positie
+        worldController.getView().setTranslateX(offsetX);
+        worldController.getView().setTranslateY(offsetY);
+
+        character_pane.setTranslateX(offsetX);
+        character_pane.setTranslateY(offsetY);
     }
 }
