@@ -4,6 +4,7 @@
  */
 package be.iiw.coredefender.character;
 
+import be.iiw.coredefender.world.WorldController;
 import java.util.TimerTask;
 import javafx.application.Platform;
 
@@ -15,7 +16,7 @@ import javafx.application.Platform;
 public class CharacterAnimator extends TimerTask {
 
     private final CharacterController controller;
-    private CharacterModel char_model;
+    private final CharacterModel char_model;
 
     public CharacterAnimator(CharacterController controller,CharacterModel char_model) {
         this.controller = controller;
@@ -24,7 +25,12 @@ public class CharacterAnimator extends TimerTask {
 
     @Override
     public void run() {
-        char_model.tick();
+        WorldController world = controller.getWorldController(); 
+        
+        if (world != null) {
+            char_model.tick(world);
+        }
+        
         Platform.runLater(controller::update);
     }
 }

@@ -48,7 +48,23 @@ public class WorldController {
         }
         return closest;
     }
-
+    
+    public boolean checkCollision(double nextX, double nextY, double playerRadius) {
+        for (ResourceModel r : model.getResources()) {
+            double dx = nextX - r.getX();
+            double dy = nextY - r.getY();
+            double distance = Math.sqrt(dx * dx + dy * dy);
+            
+            double objectRadius = 55; //Straal hitbox object
+            
+            if (distance < (playerRadius + objectRadius)) {
+                System.out.println("BOTSING!");
+                return true; //Botsing
+            }
+        }
+        return false;//GeenBotsing
+    }
+    
     public WorldView getView() {
         return view;
     }

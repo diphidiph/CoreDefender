@@ -4,6 +4,8 @@
 
 package be.iiw.coredefender.character;
 
+import be.iiw.coredefender.world.WorldController;
+
 /** * * @author kinga */ 
 
 public class CharacterModel { 
@@ -41,10 +43,17 @@ public class CharacterModel {
     public void stopX() { dx = 0; }
     public void stopY() { dy = 0; }
 
-    public void tick() {
-        x += dx;
-        y += dy;
-    }
+    public void tick(WorldController worldCtrl) {
+        double radius = 25; //Straal character
+        
+        if (!worldCtrl.checkCollision(x + dx, y, radius)) {
+            x += dx;
+        }
+        
+        if (!worldCtrl.checkCollision(x, y + dy, radius)) {
+            y += dy;
+        }
+    }//Checkt horizontaal en verticaal apart
 
     public void addWood() { wood++; }
     public void addStone() { stone++; }

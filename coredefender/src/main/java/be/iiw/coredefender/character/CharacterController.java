@@ -128,4 +128,8 @@ public class CharacterController {
     public CharacterModel getModel() {
         return char_model;
     }
+    
+    public WorldController getWorldController() {
+        return worldController;
+    }
 }
