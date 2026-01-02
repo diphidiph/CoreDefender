@@ -13,6 +13,7 @@ import be.iiw.coredefender.world.WorldController;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.Timer;
+import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -60,7 +61,7 @@ public class CoredefenderFXMLController {
         createCharacter();
         createPets();
         setupInput();
-        startAnimation();
+        
 
         Platform.runLater(() -> {
             buildOverlayController = new BuildOverlayController();
@@ -75,6 +76,10 @@ public class CoredefenderFXMLController {
             overlayController.setLevelAction(this::onLevel);
 
             overlayController.show(world_pane, (Stage) world_pane.getScene().getWindow());
+        
+        startAnimation();
+            
+            
         });
     }
 
@@ -116,11 +121,46 @@ public class CoredefenderFXMLController {
         character_pane.setOnMouseDragged(characterController::onMouseMoved);
     }
 
+    
+    /** Dit is hoe wij geleerd hebben tot nu toe (met gebruik van TimerTask)
     private void startAnimation() {
         Timer timer = new Timer(true);
         timer.scheduleAtFixedRate(
             new CharacterAnimator(characterController, char_model),10,20);
     }
+    
+    
+    Maar er werd hiervoor de mening van chatgpt gevraagd, en die vond dat het gebruik van AnimationTimer veel beter was:
+    * 1) Het is speciaal gemaakt voor animaties en het werkt dus automatisch op 60x per sec.
+    * 2) Het mag direct de UI aanpassen in tegenstelling tot TimerTask: (daarvoor moesten we altijd Platform.runLater gebruiken)
+   
+    
+    **/
+    private void startAnimation() {
+
+    new AnimationTimer() {
+        
+        //handle is gekend door JavaFX en loopt 60x per sec. We nemen die en passen het aan met @override
+        //now is de tijdstip van type long (in nano sec) en dat is nodig voor Java om de tijd bij te houden.
+        
+        @Override
+        public void handle(long now) { //handle is gekend door JavaFX en loopt 60x per sec. We nemen die en passen het aan met @override
+
+            // character model moet geupdate worden
+            char_model.tick();
+
+            // character view update (via controller.update())
+            characterController.update();
+
+            // building updates
+            if (buildingController != null) {
+                buildingController.update();
+            }
+        }
+
+    }.start();
+}
+
 
     private void onMovementInput(KeyEvent ep) {
         characterController.onKeyPressed(ep);
