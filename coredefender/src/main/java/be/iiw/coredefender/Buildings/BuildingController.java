@@ -9,7 +9,7 @@ import be.iiw.coredefender.Buildings.GoldMineView;
 import be.iiw.coredefender.Buildings.GoldMine_Model;
 import be.iiw.coredefender.Buildings.StashView;
 import be.iiw.coredefender.Buildings.Stash_Model;
-import be.iiw.coredefender.Level.Level;
+import be.iiw.coredefender.level.Level;
 import java.util.ArrayList;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;

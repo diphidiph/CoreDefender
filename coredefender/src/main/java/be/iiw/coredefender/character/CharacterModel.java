@@ -4,6 +4,8 @@
 
 package be.iiw.coredefender.character;
 
+import be.iiw.coredefender.world.WorldController;
+
 /** * * @author kinga */ 
 
 public class CharacterModel { 
@@ -41,11 +43,20 @@ public class CharacterModel {
     public void stopX() { dx = 0; }
     public void stopY() { dy = 0; }
 
-    public void tick(int worldWidth, int worldHeight, double charWidth, double charHeight) {
-        x += dx;
-        y += dy;
+    public void tick(WorldController worldCtrl, int worldWidth, int worldHeight, double charWidth, double charHeight) {
+        double radius = 25; // Straal character
 
-        // inside world
+        // Check horizontaal
+        if (!worldCtrl.checkCollision(x + dx, y, radius)) {
+            x += dx;
+        }
+
+        // Check verticaal
+        if (!worldCtrl.checkCollision(x, y + dy, radius)) {
+            y += dy;
+        }
+
+        // Zorg dat character binnen wereld blijft
         if (x < 0) x = 0;
         if (y < 0) y = 0;
         if (x > worldWidth - charWidth) x = (int)(worldWidth - charWidth);
