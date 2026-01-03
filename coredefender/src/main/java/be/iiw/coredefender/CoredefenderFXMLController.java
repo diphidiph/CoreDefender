@@ -1,8 +1,7 @@
 package be.iiw.coredefender;
 
-import be.iiw.coredefender.Buildings.BuildingController;
-import be.iiw.coredefender.Buildings.BuildingType;
-
+import be.iiw.coredefender.building.BuildingController;
+import be.iiw.coredefender.building.BuildingType;
 import be.iiw.coredefender.character.CharacterController;
 import be.iiw.coredefender.character.CharacterModel;
 import be.iiw.coredefender.character.CharacterView;
@@ -13,7 +12,6 @@ import be.iiw.coredefender.overlay.skilltreeoverlay.SkillTreeOverlayController;
 import be.iiw.coredefender.world.WorldController;
 import java.net.URL;
 import java.util.ResourceBundle;
-
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;

@@ -55,6 +55,23 @@ public class CharacterModel {
     public void addWood() { wood++; }
     public void addStone() { stone++; }
     public void addGold() { gold++; }
+    
+    public void removeWood() {
+        if (wood >= 0) {
+        wood--;
+        }
+    }
+    public void removeStone() {
+        if (stone >= 0) {
+        stone--;
+        }
+    }
+
+    public void removeGold() {
+        if (gold >= 0) {
+        gold--;
+        }
+    }
 
     public int getWoodCount() { return wood; }
     public int getStoneCount() { return stone; }

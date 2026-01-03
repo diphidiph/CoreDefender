@@ -1,15 +1,15 @@
-package be.iiw.coredefender.Buildings;
+package be.iiw.coredefender.building;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 
-import be.iiw.coredefender.Buildings.GoldMineView;
-import be.iiw.coredefender.Buildings.GoldMine_Model;
-import be.iiw.coredefender.Buildings.StashView;
-import be.iiw.coredefender.Buildings.Stash_Model;
-import be.iiw.coredefender.Level.Level;
+import be.iiw.coredefender.building.GoldMineView;
+import be.iiw.coredefender.building.GoldMine_Model;
+import be.iiw.coredefender.building.StashView;
+import be.iiw.coredefender.building.Stash_Model;
+import be.iiw.coredefender.level.Level;
 import java.util.ArrayList;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;

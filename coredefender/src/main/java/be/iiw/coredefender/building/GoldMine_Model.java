@@ -2,9 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package be.iiw.coredefender.Buildings;
+package be.iiw.coredefender.building;
 
-import be.iiw.coredefender.Level.Level;
+import be.iiw.coredefender.level.Level;
 
 /**
  *
