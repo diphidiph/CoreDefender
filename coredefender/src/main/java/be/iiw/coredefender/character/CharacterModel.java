@@ -4,15 +4,13 @@
 
 package be.iiw.coredefender.character;
 
-import be.iiw.coredefender.world.WorldController;
-
 /** * * @author kinga */ 
 
 public class CharacterModel { 
     private int x, y;
     private int dx, dy;
     private double rotation;
-    private final int v = 4;
+    private final int v = 5;
 
     private int wood = 0;
     private int stone = 0;
@@ -43,21 +41,37 @@ public class CharacterModel {
     public void stopX() { dx = 0; }
     public void stopY() { dy = 0; }
 
-    public void tick(WorldController worldCtrl) {
-        double radius = 25; //Straal character
-        
-        if (!worldCtrl.checkCollision(x + dx, y, radius)) {
-            x += dx;
-        }
-        
-        if (!worldCtrl.checkCollision(x, y + dy, radius)) {
-            y += dy;
-        }
-    }//Checkt horizontaal en verticaal apart
+    public void tick(int worldWidth, int worldHeight, double charWidth, double charHeight) {
+        x += dx;
+        y += dy;
+
+        // inside world
+        if (x < 0) x = 0;
+        if (y < 0) y = 0;
+        if (x > worldWidth - charWidth) x = (int)(worldWidth - charWidth);
+        if (y > worldHeight - charHeight) y = (int)(worldHeight - charHeight);
+    }
 
     public void addWood() { wood++; }
     public void addStone() { stone++; }
     public void addGold() { gold++; }
+    
+    public void removeWood() {
+        if (wood >= 0) {
+        wood--;
+        }
+    }
+    public void removeStone() {
+        if (stone >= 0) {
+        stone--;
+        }
+    }
+
+    public void removeGold() {
+        if (gold >= 0) {
+        gold--;
+        }
+    }
 
     public int getWoodCount() { return wood; }
     public int getStoneCount() { return stone; }

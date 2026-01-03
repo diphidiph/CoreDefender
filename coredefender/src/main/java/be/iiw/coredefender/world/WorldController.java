@@ -16,11 +16,11 @@ public class WorldController {
     private final WorldView view;
     private final Random random = new Random();
 
-    public WorldController(int width, int height) {
+    public WorldController(int width, int height, int viewWidth, int viewHeight) {
         this.model = new WorldModel(width, height);
-        this.view = new WorldView(width, height);
-
-        generateResources(15);
+        this.view = new WorldView(width, height, viewWidth, viewHeight);
+        
+        generateResources(1500);
         view.renderResources(model.getResources());
     }
 
@@ -49,22 +49,10 @@ public class WorldController {
         return closest;
     }
     
-    public boolean checkCollision(double nextX, double nextY, double playerRadius) {
-        for (ResourceModel r : model.getResources()) {
-            double dx = nextX - r.getX();
-            double dy = nextY - r.getY();
-            double distance = Math.sqrt(dx * dx + dy * dy);
-            
-            double objectRadius = 55; //Straal hitbox object
-            
-            if (distance < (playerRadius + objectRadius)) {
-                System.out.println("BOTSING!");
-                return true; //Botsing
-            }
-        }
-        return false;//GeenBotsing
+    public void update(double playerX, double playerY) {
+        view.updateTiles(playerX, playerY);
     }
-    
+
     public WorldView getView() {
         return view;
     }
