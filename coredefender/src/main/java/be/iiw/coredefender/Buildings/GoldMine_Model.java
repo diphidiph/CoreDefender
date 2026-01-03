@@ -4,7 +4,7 @@
  */
 package be.iiw.coredefender.Buildings;
 
-import be.iiw.coredefender.Level.Level;
+import be.iiw.coredefender.level.Level;
 
 /**
  *

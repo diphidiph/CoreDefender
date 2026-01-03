@@ -155,24 +155,30 @@ public class CoredefenderFXMLController {
         //now is de tijdstip van type long (in nano sec) en dat is nodig voor Java om de tijd bij te houden.
         
         @Override
-        public void handle(long now) { //handle is gekend door JavaFX en loopt 60x per sec. We nemen die en passen het aan met @override
+        public void handle(long now) {
+            if (worldController != null && char_model != null && characterController != null) {
+                // tick met collision + world boundaries
+                char_model.tick(worldController, 
+                                (int) worldRoot.getWidth(), 
+                                (int) worldRoot.getHeight(), 
+                                characterController.getView().getWidth(), 
+                                characterController.getView().getHeight());
 
-            // character model moet geupdate worden
-            char_model.tick((int) worldRoot.getWidth(),(int) worldRoot.getHeight(), characterController.getView().getWidth(), characterController.getView().getHeight());
+                // update de zichtbare tiles rond de speler
+                worldController.update(char_model.getX(), char_model.getY());
 
-            // render tiles dicht bij de speler
-            worldController.update(char_model.getX(), char_model.getY());
-            
-            // character view update (via controller.update())
-            characterController.update();
+                // update character view
+                characterController.update();
 
-            // building updates
-            if (buildingController != null) {
-                buildingController.update();
+                // update buildings
+                if (buildingController != null) {
+                    buildingController.update();
+                }
+
+                // update camera
+                updateCamera();
             }
-            updateCamera();
         }
-
     }.start();
 }
 
