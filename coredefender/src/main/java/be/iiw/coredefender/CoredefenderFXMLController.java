@@ -43,8 +43,8 @@ public class CoredefenderFXMLController {
     private WorldController worldController;
     private OverlayView overlayView;
     private Pane worldRoot;
-    private static double camX = 0;
-    private static double camY = 0;
+    private double camX = 0;
+    private double camY = 0;
 
     @FXML
     void initialize() {
@@ -61,7 +61,7 @@ public class CoredefenderFXMLController {
         Platform.runLater(() -> {
             buildOverlayController = new BuildOverlayController();
             
-            buildingController = new BuildingController(world_pane);
+            buildingController = new BuildingController(world_pane, this);
             buildOverlayController.setOnGoldStash(e -> {
             buildingController.selectBuilding(BuildingType.GOLDSTASH);
             buildOverlayController.toggle(world_pane, (Stage) world_pane.getScene().getWindow());
@@ -224,10 +224,13 @@ public class CoredefenderFXMLController {
         worldRoot.setTranslateX(camX);
         worldRoot.setTranslateY(camY);
     }
-    public static double getCamX(){
+    public double getCamX(){
         return camX;        
     }
-    public static double getCamY(){
+    public double getCamY(){
         return camY;        
+    }
+    public Pane getWorldRoot(){
+        return worldRoot;
     }
 }

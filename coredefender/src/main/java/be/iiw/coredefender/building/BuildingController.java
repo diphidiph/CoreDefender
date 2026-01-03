@@ -31,6 +31,7 @@ public class BuildingController {
     private Stash_Model stashModel;
     private StashView stashView;
     private final int TILE_SIZE = 36;
+    private CoredefenderFXMLController Main;
     
    
 
@@ -54,8 +55,9 @@ public class BuildingController {
       /**
        * Constructor (anchorpane meegeven, en 4 knoppen voor elke type gebouw)
        * */
-        public BuildingController(AnchorPane worldPane) {
-        this.worldPane = worldPane;                
+        public BuildingController(AnchorPane worldPane, CoredefenderFXMLController Main) {
+        this.worldPane = worldPane;
+        this.Main = Main;
         BuildingWorldClickHandler();
     }
         /**
@@ -94,9 +96,9 @@ public class BuildingController {
     private void placeBuilding(MouseEvent event){
         if (selectedBuilding == null) return;
         
-        double camX = CoredefenderFXMLController.getCamX();
-        double camY = CoredefenderFXMLController.getCamY();
-        
+        double camX = Main.getCamX();
+        double camY = Main.getCamY();
+               
        
         // wereldpositie van de klik
         double worldX = event.getSceneX() - camX;
@@ -116,8 +118,11 @@ public class BuildingController {
                    
                     stashModel = new Stash_Model(snappedX, snappedY, Level.level_1);
                     stashView = new StashView(stashModel);
+                    stashView.setTranslateX(stashModel.getX());
+                    stashView.setTranslateY(stashModel.getY());
 
-                    worldPane.getChildren().add(stashView);
+                    
+                    Main.getWorldRoot().getChildren().add(stashView);
                 }
                 break;
 
@@ -126,11 +131,13 @@ public class BuildingController {
                     
                     mineModel = new GoldMine_Model(snappedX, snappedY, Level.level_1);
                     mineView = new GoldMineView(mineModel);
+                    mineView.setTranslateX(mineModel.getX());
+                    mineView.setTranslateY(mineModel.getY());
 
                     mineModels.add(mineModel);
                     mineViews.add(mineView);
 
-                    worldPane.getChildren().add(mineView);
+                    Main.getWorldRoot().getChildren().add(mineView);
                 }
                 break;
 
