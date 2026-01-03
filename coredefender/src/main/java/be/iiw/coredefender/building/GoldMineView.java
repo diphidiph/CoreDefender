@@ -4,6 +4,10 @@
  */
 package be.iiw.coredefender.building;
 
+import javafx.geometry.Insets;
+import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.shape.SVGPath;
 
 /**
@@ -11,18 +15,37 @@ import javafx.scene.shape.SVGPath;
  * @author Gebruiker
  */
 public class GoldMineView extends BuildingView {
-    private final SVGPath svg;
+    private final Button GoldMineButton;
     private final GoldMine_Model mineModel;
+    private final int ButtonSize = 72;
 
     public GoldMineView(GoldMine_Model mineModel) {
         
         super(mineModel);
         this.mineModel = mineModel;
-        svg = new SVGPath();
-        svg.setContent("Gold-mine.svg");      
         
-        getChildren().add(svg);
+        GoldMineButton = createButtonWithImage("/be/iiw/coredefender/Buildings_Images/Gold-mine.png");      
+        
+        getChildren().add(GoldMineButton);
     }   
+        private Button createButtonWithImage(String imagePath) {
+        Button btn = new Button();
+        Image img = new Image(getClass().getResource(imagePath).toExternalForm());
+        ImageView imgView = new ImageView(img);       
+        btn.setGraphic(imgView);        
+        imgView.setFitWidth(ButtonSize);
+        imgView.setFitHeight(ButtonSize);
+        imgView.setPreserveRatio(true);     
+
+        btn.setPrefSize(ButtonSize, ButtonSize);
+        btn.setMinSize(ButtonSize, ButtonSize);
+        btn.setMaxSize(ButtonSize, ButtonSize);
+
+        btn.setPadding(Insets.EMPTY);
+        btn.setFocusTraversable(false); // focusrand weg   
+        
+        return btn;
+    }
     
     
 

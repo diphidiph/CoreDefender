@@ -5,6 +5,7 @@ package be.iiw.coredefender.building;
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 
+import be.iiw.coredefender.CoredefenderFXMLController;
 import be.iiw.coredefender.building.GoldMineView;
 import be.iiw.coredefender.building.GoldMine_Model;
 import be.iiw.coredefender.building.StashView;
@@ -29,6 +30,9 @@ public class BuildingController {
     // Voor Stash (max 1)
     private Stash_Model stashModel;
     private StashView stashView;
+    private final int TILE_SIZE = 36;
+    
+   
 
     // Voor Gold Mines (max 6)
     private GoldMineView mineView;
@@ -90,15 +94,27 @@ public class BuildingController {
     private void placeBuilding(MouseEvent event){
         if (selectedBuilding == null) return;
         
-        int x = (int) event.getX();
-        int y = (int) event.getY();
+        double camX = CoredefenderFXMLController.getCamX();
+        double camY = CoredefenderFXMLController.getCamY();
+        
+       
+        // wereldpositie van de klik
+        double worldX = event.getSceneX() - camX;
+        double worldY = event.getSceneY() - camY;
+        
+        int gridX = (int)( worldX/ TILE_SIZE);
+        int gridY = (int)(worldY / TILE_SIZE);  
+        
+        
+        int snappedX = gridX * TILE_SIZE;
+        int snappedY = gridY * TILE_SIZE;
         
          switch (selectedBuilding) {
 
             case GOLDSTASH:
                 if (stashModel == null) {
                    
-                    stashModel = new Stash_Model(x, y, Level.level_1);
+                    stashModel = new Stash_Model(snappedX, snappedY, Level.level_1);
                     stashView = new StashView(stashModel);
 
                     worldPane.getChildren().add(stashView);
@@ -108,7 +124,7 @@ public class BuildingController {
             case GOLDMINE:
                 if (mineModels.size() < MAX_MINES) {
                     
-                    mineModel = new GoldMine_Model(x, y, Level.level_1);
+                    mineModel = new GoldMine_Model(snappedX, snappedY, Level.level_1);
                     mineView = new GoldMineView(mineModel);
 
                     mineModels.add(mineModel);
