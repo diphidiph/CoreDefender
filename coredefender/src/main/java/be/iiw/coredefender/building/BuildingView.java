@@ -8,15 +8,14 @@ import javafx.scene.layout.Region;
 
 /**
  *
- * @author Gebruiker
+ * @author R. Yediael
  */
 public abstract class BuildingView extends Region{
       protected final Building model;
 
     public BuildingView(Building model) {
         this.model = model;       
-        setLayoutX(model.getX());
-        setLayoutY(model.getY());
+        
     }
 
     public void update(){    

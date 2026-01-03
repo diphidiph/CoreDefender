@@ -41,8 +41,8 @@ public class CoredefenderFXMLController {
     private BuildingController buildingController;
     private WorldController worldController;
     private Pane worldRoot;
-    private double camX = 0;
-    private double camY = 0;
+    private static double camX = 0;
+    private static double camY = 0;
 
     @FXML
     void initialize() {
@@ -219,5 +219,11 @@ public class CoredefenderFXMLController {
 
         worldRoot.setTranslateX(camX);
         worldRoot.setTranslateY(camY);
+    }
+    public static double getCamX(){
+        return camX;        
+    }
+    public static double getCamY(){
+        return camY;        
     }
 }
