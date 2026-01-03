@@ -42,6 +42,7 @@ public class StashView extends BuildingView {
         imgView.setFitHeight(ButtonSize);
         imgView.setPreserveRatio(true);     
 
+        btn.setStyle("-fx-background-color: transparent");
         btn.setPrefSize(ButtonSize, ButtonSize);
         btn.setMinSize(ButtonSize, ButtonSize);
         btn.setMaxSize(ButtonSize, ButtonSize);

@@ -78,8 +78,9 @@ public class BuildOverlayView {
         btn.setGraphic(imgView);        
         imgView.setFitWidth(44);
         imgView.setFitHeight(44);
-        imgView.setPreserveRatio(true);     
-
+        imgView.setPreserveRatio(true); 
+        
+        btn.setStyle("-fx-background-color: #4A90E2; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8;");
         btn.setPrefSize(50, 50);
         btn.setMinSize(50, 50);
         btn.setMaxSize(50, 50);
