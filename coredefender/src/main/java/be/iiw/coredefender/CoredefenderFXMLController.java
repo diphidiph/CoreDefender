@@ -87,7 +87,7 @@ public class CoredefenderFXMLController {
     private void createWorld() {
         worldRoot = new Pane();
 
-        worldController = new WorldController(100, 100);
+        worldController = new WorldController(1000, 1000, 60, 60);
         worldRoot.getChildren().add(worldController.getView());
 
         world_pane.getChildren().add(worldRoot);
@@ -156,6 +156,9 @@ public class CoredefenderFXMLController {
             // character model moet geupdate worden
             char_model.tick((int) worldRoot.getWidth(),(int) worldRoot.getHeight(), characterController.getView().getWidth(), characterController.getView().getHeight());
 
+            // render tiles dicht bij de speler
+            worldController.update(char_model.getX(), char_model.getY());
+            
             // character view update (via controller.update())
             characterController.update();
 

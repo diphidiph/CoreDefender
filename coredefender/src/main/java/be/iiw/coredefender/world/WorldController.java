@@ -16,11 +16,11 @@ public class WorldController {
     private final WorldView view;
     private final Random random = new Random();
 
-    public WorldController(int width, int height) {
+    public WorldController(int width, int height, int viewWidth, int viewHeight) {
         this.model = new WorldModel(width, height);
-        this.view = new WorldView(width, height);
-
-        generateResources(15);
+        this.view = new WorldView(width, height, viewWidth, viewHeight);
+        
+        generateResources(1500);
         view.renderResources(model.getResources());
     }
 
@@ -47,6 +47,10 @@ public class WorldController {
             }
         }
         return closest;
+    }
+    
+    public void update(double playerX, double playerY) {
+        view.updateTiles(playerX, playerY);
     }
 
     public WorldView getView() {
