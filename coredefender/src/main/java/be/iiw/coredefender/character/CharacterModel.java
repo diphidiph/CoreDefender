@@ -10,7 +10,7 @@ public class CharacterModel {
     private int x, y;
     private int dx, dy;
     private double rotation;
-    private final int v = 6;
+    private final int v = 5;
 
     private int wood = 0;
     private int stone = 0;

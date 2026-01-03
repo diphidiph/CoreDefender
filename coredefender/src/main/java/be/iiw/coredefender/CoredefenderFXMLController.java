@@ -87,7 +87,7 @@ public class CoredefenderFXMLController {
     private void createWorld() {
         worldRoot = new Pane();
 
-        worldController = new WorldController(1000, 1000, 60, 60);
+        worldController = new WorldController(1000, 1000, 60, 40);
         worldRoot.getChildren().add(worldController.getView());
 
         world_pane.getChildren().add(worldRoot);
