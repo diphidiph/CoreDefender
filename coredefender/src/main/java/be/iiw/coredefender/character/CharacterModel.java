@@ -10,7 +10,7 @@ public class CharacterModel {
     private int x, y;
     private int dx, dy;
     private double rotation;
-    private final int v = 4;
+    private final int v = 6;
 
     private int wood = 0;
     private int stone = 0;
@@ -41,9 +41,15 @@ public class CharacterModel {
     public void stopX() { dx = 0; }
     public void stopY() { dy = 0; }
 
-    public void tick() {
+    public void tick(int worldWidth, int worldHeight, double charWidth, double charHeight) {
         x += dx;
         y += dy;
+
+        // inside world
+        if (x < 0) x = 0;
+        if (y < 0) y = 0;
+        if (x > worldWidth - charWidth) x = (int)(worldWidth - charWidth);
+        if (y > worldHeight - charHeight) y = (int)(worldHeight - charHeight);
     }
 
     public void addWood() { wood++; }

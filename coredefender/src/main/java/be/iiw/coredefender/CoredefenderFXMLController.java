@@ -19,32 +19,21 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.text.Text;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class CoredefenderFXMLController {
 
     @FXML
     private ResourceBundle resources;
-
+    
     @FXML
     private URL location;
-
-    @FXML
-    private Text item_gold;
-
-    @FXML
-    private Text item_stone;
-
-    @FXML
-    private Text item_wood;
-
+    
     @FXML
     private AnchorPane world_pane;
-
-    @FXML
+    
     private AnchorPane character_pane;
-
     private CharacterController characterController;
     private CharacterModel char_model;
     private PetsOverlayController petsController;
@@ -52,6 +41,9 @@ public class CoredefenderFXMLController {
     private BuildOverlayController buildOverlayController;
     private BuildingController buildingController;
     private WorldController worldController;
+    private Pane worldRoot;
+    private double camX = 0;
+    private double camY = 0;
 
     @FXML
     void initialize() {
@@ -62,44 +54,43 @@ public class CoredefenderFXMLController {
         createPets();
         setupInput();
         
-
         Platform.runLater(() -> {
             buildOverlayController = new BuildOverlayController();
             
             buildingController = new BuildingController(world_pane);
             buildOverlayController.setOnGoldStash(e -> {
-                buildingController.selectBuilding(BuildingType.GOLDSTASH);
-                buildOverlayController.toggle(world_pane, (Stage) world_pane.getScene().getWindow());
-                // focus terug naar worldPane zodat klik geregistreerd wordt
-                world_pane.requestFocus();
-                //world_pane.getChildren().forEach(node -> node.setMouseTransparent(false));
-                //character_pane.setMouseTransparent(true); // laat klik door naar worldPane
-                        });
+            buildingController.selectBuilding(BuildingType.GOLDSTASH);
+            buildOverlayController.toggle(world_pane, (Stage) world_pane.getScene().getWindow());
+            // focus terug naar worldPane zodat klik geregistreerd wordt
+            world_pane.requestFocus();
+            //world_pane.getChildren().forEach(node -> node.setMouseTransparent(false));
+            //character_pane.setMouseTransparent(true); // laat klik door naar worldPane
+            });
             
             buildOverlayController.setOnGoldMine(e -> {
-                buildingController.selectBuilding(BuildingType.GOLDMINE);
-                buildOverlayController.toggle(world_pane, (Stage) world_pane.getScene().getWindow());
-                // focus terug naar worldPane zodat klik geregistreerd wordt
-                world_pane.requestFocus();
-                        
-                    });
+            buildingController.selectBuilding(BuildingType.GOLDMINE);
+            buildOverlayController.toggle(world_pane, (Stage) world_pane.getScene().getWindow());
+            // focus terug naar worldPane zodat klik geregistreerd wordt
+            world_pane.requestFocus();        
+            });
 
             overlayController.setBuildAction(this::onBuild);
             overlayController.setPetsAction(this::onPets);
             overlayController.setAttackAction(this::onAttack);
             overlayController.setLevelAction(this::onLevel);
 
-            overlayController.show(world_pane, (Stage) world_pane.getScene().getWindow());
-        
-        startAnimation();
-            
-            
+            overlayController.show(world_pane, (Stage) world_pane.getScene().getWindow()); 
+        startAnimation(); 
         });
     }
 
     private void createWorld() {
+        worldRoot = new Pane();
+
         worldController = new WorldController(100, 100);
-        world_pane.getChildren().add(worldController.getView());
+        worldRoot.getChildren().add(worldController.getView());
+
+        world_pane.getChildren().add(worldRoot);
     }
 
     private void createCharacter() {
@@ -116,10 +107,9 @@ public class CoredefenderFXMLController {
 
         char_model = new CharacterModel();
         CharacterView char_view = new CharacterView(char_model);
+        worldRoot.getChildren().add(char_view);
 
         characterController = new CharacterController(char_model, char_view, worldController, overlayController);
-
-        character_pane.getChildren().add(char_view);
     }
     
     private void createPets() {
@@ -160,7 +150,7 @@ public class CoredefenderFXMLController {
         public void handle(long now) { //handle is gekend door JavaFX en loopt 60x per sec. We nemen die en passen het aan met @override
 
             // character model moet geupdate worden
-            char_model.tick();
+            char_model.tick((int) worldRoot.getWidth(),(int) worldRoot.getHeight(), characterController.getView().getWidth(), characterController.getView().getHeight());
 
             // character view update (via controller.update())
             characterController.update();
@@ -203,43 +193,22 @@ public class CoredefenderFXMLController {
     private void onLevel(ActionEvent event) {
         character_pane.requestFocus();
     }
-    
-    public void updateCamera() {
-        // Midden van character
-        double charCenterX = char_model.getX() + characterController.getView().getWidth() / 2;
-        double charCenterY = char_model.getY() + characterController.getView().getHeight() / 2;
 
+    public void updateCamera() {
         double screenWidth = world_pane.getScene().getWidth();
         double screenHeight = world_pane.getScene().getHeight();
 
-        // Offset berekenen (zodat character in het midden blijft)
-        double offsetX = -(charCenterX - screenWidth / 2);
-        double offsetY = -(charCenterY - screenHeight / 2);
+        double charCenterX = char_model.getX() + characterController.getView().getWidth() / 2;
+        double charCenterY = char_model.getY() + characterController.getView().getHeight() / 2;
 
-        double worldWidth = worldController.getView().getWidth();
-        double worldHeight = worldController.getView().getHeight();
+        double targetCamX = -(charCenterX - screenWidth / 2);
+        double targetCamY = -(charCenterY - screenHeight / 2);
 
-        // Beperk offsetX zodat character niet buiten de wereld kan
-        if (offsetX > 0) {
-            offsetX = 0;
-        }
-        if (offsetX < screenWidth - worldWidth) {
-            offsetX = screenWidth - worldWidth;
-        }
+        // maakt camera smooth (update 0.1x)
+        camX += (targetCamX - camX) * 0.1;
+        camY += (targetCamY - camY) * 0.1;
 
-        // Beperk offsetY zodat character niet buiten de wereld kan
-        if (offsetY > 0) {
-            offsetY = 0;
-        }
-        if (offsetY < screenHeight - worldHeight) {
-            offsetY = screenHeight - worldHeight;
-        }
-
-        // Zet de worldController en character_pane op de juiste positie
-        worldController.getView().setTranslateX(offsetX);
-        worldController.getView().setTranslateY(offsetY);
-
-        character_pane.setTranslateX(offsetX);
-        character_pane.setTranslateY(offsetY);
+        worldRoot.setTranslateX(camX);
+        worldRoot.setTranslateY(camY);
     }
 }
