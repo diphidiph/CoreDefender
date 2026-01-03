@@ -9,6 +9,7 @@ import be.iiw.coredefender.character.CharacterView;
 import be.iiw.coredefender.overlay.OverlayController;
 import be.iiw.coredefender.overlay.buildoverlay.BuildOverlayController;
 import be.iiw.coredefender.overlay.petsoverlay.PetsOverlayController;
+import be.iiw.coredefender.overlay.skilltreeoverlay.SkillTreeOverlayController;
 import be.iiw.coredefender.world.WorldController;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -32,11 +33,11 @@ public class CoredefenderFXMLController {
     
     @FXML
     private AnchorPane world_pane;
-    
     private AnchorPane character_pane;
     private CharacterController characterController;
     private CharacterModel char_model;
-    private PetsOverlayController petsController;
+    private PetsOverlayController petsOverlayController;
+    private SkillTreeOverlayController skilltreeOverlayController;
     private OverlayController overlayController;
     private BuildOverlayController buildOverlayController;
     private BuildingController buildingController;
@@ -52,6 +53,7 @@ public class CoredefenderFXMLController {
         createWorld();
         createCharacter();
         createPets();
+        createSkillTree();
         setupInput();
         
         Platform.runLater(() -> {
@@ -77,7 +79,7 @@ public class CoredefenderFXMLController {
             overlayController.setBuildAction(this::onBuild);
             overlayController.setPetsAction(this::onPets);
             overlayController.setAttackAction(this::onAttack);
-            overlayController.setLevelAction(this::onLevel);
+            overlayController.setSkillTreeAction(this::onSkillTree);
 
             overlayController.show(world_pane, (Stage) world_pane.getScene().getWindow()); 
         startAnimation(); 
@@ -113,7 +115,11 @@ public class CoredefenderFXMLController {
     }
     
     private void createPets() {
-        petsController = new PetsOverlayController();
+        petsOverlayController = new PetsOverlayController();
+    }
+    
+    private void createSkillTree() {
+        skilltreeOverlayController = new SkillTreeOverlayController();
     }
 
     private void setupInput() {
@@ -182,7 +188,7 @@ public class CoredefenderFXMLController {
 
     private void onPets(ActionEvent event) {
         Stage stage = (Stage) world_pane.getScene().getWindow();
-        petsController.toggle(world_pane, stage);
+        petsOverlayController.toggle(world_pane, stage);
         character_pane.requestFocus();
     }
 
@@ -190,7 +196,9 @@ public class CoredefenderFXMLController {
         character_pane.requestFocus();
     }
 
-    private void onLevel(ActionEvent event) {
+    private void onSkillTree(ActionEvent event) {
+        Stage stage = (Stage) world_pane.getScene().getWindow();
+        skilltreeOverlayController.toggle(world_pane, stage);
         character_pane.requestFocus();
     }
 

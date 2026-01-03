@@ -51,7 +51,7 @@ public class OverlayController {
         overlayView.getBuildButton().setOnAction(handler);
     }
 
-    public void setLevelAction(EventHandler<ActionEvent> handler) {
+    public void setSkillTreeAction(EventHandler<ActionEvent> handler) {
         overlayView.getLevelButton().setOnAction(handler);
     }
 }
