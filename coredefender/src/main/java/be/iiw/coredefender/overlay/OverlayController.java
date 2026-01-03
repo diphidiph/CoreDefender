@@ -6,18 +6,18 @@ import javafx.event.EventHandler;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-/**
- *
- * @author kinga
- */
-
 public class OverlayController {
+
     private final OverlayView overlayView;
 
     public OverlayController() {
         overlayView = new OverlayView();
     }
-    
+
+    public OverlayController(OverlayView overlayView) {
+        this.overlayView = overlayView;
+    }
+
     public void updateInventory(CharacterModel model) {
         overlayView.updateInventory(
             model.getWoodCount(),
@@ -33,7 +33,9 @@ public class OverlayController {
     public void show(AnchorPane parentPane, Stage stage) {
         AnchorPane pane = overlayView.getView();
 
-        parentPane.getChildren().add(pane);
+        if (!parentPane.getChildren().contains(pane)) {
+            parentPane.getChildren().add(pane);
+        }
 
         pane.setLayoutX((stage.getScene().getWidth() - pane.getPrefWidth()) / 2);
         pane.setLayoutY(stage.getScene().getHeight() * 7 / 8 - pane.getPrefHeight() / 2);

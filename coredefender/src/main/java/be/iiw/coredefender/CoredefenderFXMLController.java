@@ -6,6 +6,7 @@ import be.iiw.coredefender.character.CharacterController;
 import be.iiw.coredefender.character.CharacterModel;
 import be.iiw.coredefender.character.CharacterView;
 import be.iiw.coredefender.overlay.OverlayController;
+import be.iiw.coredefender.overlay.OverlayView;
 import be.iiw.coredefender.overlay.buildoverlay.BuildOverlayController;
 import be.iiw.coredefender.overlay.petsoverlay.PetsOverlayController;
 import be.iiw.coredefender.overlay.skilltreeoverlay.SkillTreeOverlayController;
@@ -40,13 +41,16 @@ public class CoredefenderFXMLController {
     private BuildOverlayController buildOverlayController;
     private BuildingController buildingController;
     private WorldController worldController;
+    private OverlayView overlayView;
     private Pane worldRoot;
     private double camX = 0;
     private double camY = 0;
 
     @FXML
     void initialize() {
-        overlayController = new OverlayController();
+        overlayView = new OverlayView();
+        overlayController = new OverlayController(overlayView);
+
 
         createWorld();
         createCharacter();
@@ -113,7 +117,7 @@ public class CoredefenderFXMLController {
     }
     
     private void createPets() {
-        petsOverlayController = new PetsOverlayController();
+        petsOverlayController = new PetsOverlayController(char_model, overlayView);
     }
     
     private void createSkillTree() {

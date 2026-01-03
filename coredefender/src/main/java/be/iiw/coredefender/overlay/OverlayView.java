@@ -87,6 +87,7 @@ public class OverlayView {
         svg.setScaleX(1.2);
         svg.setScaleY(1.2);
         btn.setGraphic(svg);
+        btn.setStyle("-fx-background-color: #4A90E2; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8;");
         btn.setFocusTraversable(false);
         return btn;
     }
