@@ -44,7 +44,7 @@ public class CharacterModel {
     public void stopY() { dy = 0; }
 
     public void tick(WorldController worldCtrl, int worldWidth, int worldHeight, double charWidth, double charHeight) {
-        double radius = 25; // Straal character
+        double radius = 18; // Straal character
 
         // Check horizontaal
         if (!worldCtrl.checkCollision(x + dx, y, radius)) {
