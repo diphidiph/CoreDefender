@@ -11,7 +11,7 @@ package be.iiw.coredefender.building;
 public enum BuildingType {
     GOLDMINE(72,72), 
     GOLDSTASH(72,72), 
-    CANON(72,72), 
+    BOMBTOWER(72,72), 
     WALL(36,36);
     
     

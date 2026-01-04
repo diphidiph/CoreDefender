@@ -1,5 +1,6 @@
 package be.iiw.coredefender.overlay;
 
+import be.iiw.coredefender.building.StashModel;
 import be.iiw.coredefender.character.CharacterModel;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -18,17 +19,18 @@ public class OverlayController {
         this.overlayView = overlayView;
     }
 
-    public void updateInventory(CharacterModel model) {
-        overlayView.updateInventory(
+    public void updateBuildingMaterials(CharacterModel model) {
+        overlayView.updateBuildingMaterials(
             model.getWoodCount(),
-            model.getStoneCount(),
-            model.getGoldCount()
-        );
-    }
+            model.getStoneCount());            
+           }
+    public void updateGold(StashModel stash){
+        overlayView.updateGoldAmount((int) stash.getGoldAmount());
+        }
 
     public AnchorPane getView() {
         return overlayView.getView();
-    }
+        }
 
     public void show(AnchorPane parentPane, Stage stage) {
         AnchorPane pane = overlayView.getView();

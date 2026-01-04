@@ -6,7 +6,7 @@ package be.iiw.coredefender.Collidables;
 
 /**
  *
- * @author Gebruiker
+ * @author R. Yediael
  */
 public interface Collidable {
     double getX();

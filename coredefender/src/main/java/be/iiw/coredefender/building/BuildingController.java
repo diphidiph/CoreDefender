@@ -44,15 +44,19 @@ public class BuildingController {
     private final ArrayList<GoldMine_Model> mineModels = new ArrayList<>();
     private final ArrayList<GoldMineView> mineViews = new ArrayList<>();
     
-    // Voor Canons (max 8)
-    //private static final int MAX_CANONS = 8;
-    //private final ArrayList<Canon_Model> canonModels = new ArrayList<>();
-    //private final ArrayList<CanonView> canonViews = new ArrayList<>();
+    //Voor bomb towers (max 8)
+    private BombTowerModel bombTowerModel;
+    private BombTowerView bombTowerView;
+    private static final int MAX_TOWERS = 8;
+    private final ArrayList<BombTowerModel> bombTowerModels = new ArrayList<>();
+    private final ArrayList<BombTowerView> bombTowerViews = new ArrayList<>();
     
     // Voor Walls (max 200)
-    //private static final int MAX_WALLS = 200;
-    //private final ArrayList<Wall_Model> wallModels = new ArrayList<>();
-    //private final ArrayList<WallView> wallViews = new ArrayList<>();
+     private WallModel wallModel;
+    private WallView wallView;
+    private static final int MAX_WALLS = 200;
+    private final ArrayList<WallModel> wallModels = new ArrayList<>();
+    private final ArrayList<WallView> wallViews = new ArrayList<>();
     
       /**
        * Constructor (anchorpane meegeven, en 4 knoppen voor elke type gebouw)
@@ -148,6 +152,37 @@ public class BuildingController {
                     worldController.addCollidable(mineModel);
                 }
                 break;
+            case BOMBTOWER:
+                if (bombTowerModels.size() < MAX_TOWERS) {
+                    
+                    bombTowerModel = new BombTowerModel(snappedX, snappedY, Level.level_1);
+                    bombTowerView = new BombTowerView(bombTowerModel);
+                    bombTowerView.setTranslateX(bombTowerModel.getRenderX());
+                    bombTowerView.setTranslateY(bombTowerModel.getRenderY());
+
+                    bombTowerModels.add(bombTowerModel);
+                    bombTowerViews.add(bombTowerView);
+
+                    Main.getWorldRoot().getChildren().add(bombTowerView);
+                    worldController.addCollidable(bombTowerModel);
+                }
+                break;
+            
+            case WALL:
+                if (bombTowerModels.size() < MAX_WALLS) {
+                    
+                    wallModel = new WallModel(snappedX, snappedY, Level.level_1);
+                    wallView = new WallView(wallModel);
+                    wallView.setTranslateX(wallModel.getRenderX());
+                    wallView.setTranslateY(wallModel.getRenderY());
+
+                    wallModels.add(wallModel);
+                    wallViews.add(wallView);
+
+                    Main.getWorldRoot().getChildren().add(wallView);
+                    worldController.addCollidable(wallModel);
+                }
+                break;
 
             default:
                 break;
@@ -167,7 +202,18 @@ public class BuildingController {
         for (GoldMineView view : mineViews) {
             view.update();
         }
-    } 
+        // Verzamel goud van alle mines en voeg toe aan stash
+    if (stashModel != null) {
+        double totalGold = 0;
+        for (GoldMine_Model mine : mineModels) {
+            totalGold += mine.getIncome(); // gebruik jouw methode getIncome()
+            }
+            stashModel.addGold(totalGold); // voeg alles toe aan de stash
+            Main.getOverlayController().updateGold(stashModel);
+        }
+        
+    }
+    
 }
 
 
