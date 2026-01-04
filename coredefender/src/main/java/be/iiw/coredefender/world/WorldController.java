@@ -3,6 +3,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package be.iiw.coredefender.world;
+import be.iiw.coredefender.Collidables.Collidable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import java.util.Random;
 
@@ -12,6 +16,7 @@ import java.util.Random;
  */
 public class WorldController {
 
+    private List<Collidable> collidables = new ArrayList<>();
     private final WorldModel model;
     private final WorldView view;
     private final Random random = new Random();
@@ -26,9 +31,13 @@ public class WorldController {
 
     private void generateResources(int amount) {
         for (int i = 0; i < amount; i++) {
-            model.getResources().add(new ResourceModel(ResourceType.TREE,random.nextInt(model.getWidth() * 36),random.nextInt(model.getHeight()) * 36));
+            ResourceModel tree = new ResourceModel(ResourceType.TREE, random.nextInt(model.getWidth() * 36), random.nextInt(model.getHeight()) * 36);
+            model.getResources().add(tree);
+            collidables.add(tree);
 
-            model.getResources().add(new ResourceModel(ResourceType.STONE,random.nextInt(model.getWidth() * 36), random.nextInt(model.getHeight()) * 36));
+            ResourceModel stone = new ResourceModel(ResourceType.STONE,random.nextInt(model.getWidth() * 36), random.nextInt(model.getHeight()) * 36);
+            model.getResources().add(stone);
+            collidables.add(stone);
         }
     }
     
@@ -48,21 +57,29 @@ public class WorldController {
         }
         return closest;
     }
+    public void addCollidable(Collidable c) {
+    collidables.add(c);
+    }
+    public void removeCollidable(Collidable c){
+        collidables.remove(c);
+    }
     
     public boolean checkCollision(double nextX, double nextY, double playerRadius) {
-        for (ResourceModel r : model.getResources()) {
-            double dx = nextX - r.getX();
-            double dy = nextY - r.getY();
+        for (Collidable c : collidables) {
+            double dx = nextX - c.getX();
+            double dy = nextY - c.getY();
             double distance = Math.sqrt(dx * dx + dy * dy);
-            double objectRadius = 55; //Straal hitbox object
-
-            if (distance < (playerRadius + objectRadius)) {
-                System.out.println("BOTSING!");
-                return true; //Botsing
-            }
+            
+             if (distance < playerRadius + c.getRadius()) {
+            return true;
+        }
         }
         return false;//GeenBotsing
     }
+    
+
+   
+    
     
     public void update(double playerX, double playerY) {
         view.updateTiles(playerX, playerY);

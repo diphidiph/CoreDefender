@@ -11,6 +11,7 @@ import be.iiw.coredefender.building.GoldMine_Model;
 import be.iiw.coredefender.building.StashView;
 import be.iiw.coredefender.building.StashModel;
 import be.iiw.coredefender.level.Level;
+import be.iiw.coredefender.world.WorldController;
 import java.util.ArrayList;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
@@ -27,6 +28,7 @@ public class BuildingController {
  
     private BuildingType selectedBuilding = null; //we starten met geen type
     private AnchorPane worldPane;
+    private WorldController worldController;
     // Voor Stash (max 1)
     private StashModel stashModel;
     private StashView stashView;
@@ -55,10 +57,12 @@ public class BuildingController {
       /**
        * Constructor (anchorpane meegeven, en 4 knoppen voor elke type gebouw)
        * */
-        public BuildingController(AnchorPane worldPane, CoredefenderFXMLController Main) {
+        public BuildingController(AnchorPane worldPane, CoredefenderFXMLController Main, WorldController worldController) {
         this.worldPane = worldPane;
         this.Main = Main;
+        this.worldController = worldController;
         BuildingWorldClickHandler();
+        
     }
         /**
        * Originele Methode om juiste gebouw aan te klikken. (Was niet ideaal omdat de controller in de view moest zoeken voor de juiste Buttons)
@@ -104,13 +108,15 @@ public class BuildingController {
         double worldX = event.getSceneX() - camX;
         double worldY = event.getSceneY() - camY;
         
-        int gridX = (int)( worldX/ TILE_SIZE);
+      
+        
+        int gridX = (int)(worldX / TILE_SIZE);
         int gridY = (int)(worldY / TILE_SIZE);  
         
         
         int snappedX = gridX * TILE_SIZE;
         int snappedY = gridY * TILE_SIZE;
-        
+      
          switch (selectedBuilding) {
 
             case GOLDSTASH:
@@ -118,11 +124,12 @@ public class BuildingController {
                    
                     stashModel = new StashModel(snappedX, snappedY, Level.level_1);
                     stashView = new StashView(stashModel);
-                    stashView.setTranslateX(stashModel.getX());
-                    stashView.setTranslateY(stashModel.getY());
+                    stashView.setTranslateX(stashModel.getRenderX());
+                    stashView.setTranslateY(stashModel.getRenderY());
 
                     
                     Main.getWorldRoot().getChildren().add(stashView);
+                    worldController.addCollidable(stashModel);
                 }
                 break;
 
@@ -131,13 +138,14 @@ public class BuildingController {
                     
                     mineModel = new GoldMine_Model(snappedX, snappedY, Level.level_1);
                     mineView = new GoldMineView(mineModel);
-                    mineView.setTranslateX(mineModel.getX());
-                    mineView.setTranslateY(mineModel.getY());
+                    mineView.setTranslateX(mineModel.getRenderX());
+                    mineView.setTranslateY(mineModel.getRenderY());
 
                     mineModels.add(mineModel);
                     mineViews.add(mineView);
 
                     Main.getWorldRoot().getChildren().add(mineView);
+                    worldController.addCollidable(mineModel);
                 }
                 break;
 

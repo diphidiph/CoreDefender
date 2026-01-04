@@ -50,6 +50,7 @@ public class CoredefenderFXMLController {
     void initialize() {
         overlayView = new OverlayView();
         overlayController = new OverlayController(overlayView);
+        
 
 
         createWorld();
@@ -61,7 +62,7 @@ public class CoredefenderFXMLController {
         Platform.runLater(() -> {
             buildOverlayController = new BuildOverlayController();
             
-            buildingController = new BuildingController(world_pane, this);
+            buildingController = new BuildingController(world_pane, this, worldController);
             buildOverlayController.setOnGoldStash(e -> {
             buildingController.selectBuilding(BuildingType.GOLDSTASH);
             buildOverlayController.toggle(world_pane, (Stage) world_pane.getScene().getWindow());
@@ -158,11 +159,7 @@ public class CoredefenderFXMLController {
         public void handle(long now) {
             if (worldController != null && char_model != null && characterController != null) {
                 // tick met collision + world boundaries
-                char_model.tick(worldController, 
-                                (int) worldRoot.getWidth(), 
-                                (int) worldRoot.getHeight(), 
-                                characterController.getView().getWidth(), 
-                                characterController.getView().getHeight());
+                char_model.tick(worldController,(int)worldRoot.getWidth(),(int)worldRoot.getHeight(),characterController.getView().getWidth(), characterController.getView().getHeight());
 
                 // update de zichtbare tiles rond de speler
                 worldController.update(char_model.getX(), char_model.getY());

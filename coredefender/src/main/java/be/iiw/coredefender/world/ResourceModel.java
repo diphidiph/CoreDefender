@@ -4,12 +4,14 @@
  */
 package be.iiw.coredefender.world;
 
+import be.iiw.coredefender.Collidables.Collidable;
+
 /**
  *
  * @author Toon
  */
 
-public class ResourceModel {
+public class ResourceModel implements Collidable {
 
     private final ResourceType type;
     private final double x;
@@ -22,6 +24,14 @@ public class ResourceModel {
     }
 
     public ResourceType getType() { return type; }
+    @Override
     public double getX() { return x; }
+    @Override
     public double getY() { return y; }
+    
+    @Override
+    public double getRadius() {
+        return 55;
+    }
 }
+

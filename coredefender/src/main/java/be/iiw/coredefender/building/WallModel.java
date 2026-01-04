@@ -15,10 +15,14 @@ public class WallModel extends Building {
     
         
      public WallModel(int x, int y, Level level) {
-        super(x, y, level, baseFullHP); 
+        super(BuildingType.WALL,x, y, level, baseFullHP); 
         
         }
-    
+     
+      @Override
+    public double getRadius() {
+        return 34;
+    }
    
          
 }

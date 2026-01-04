@@ -15,7 +15,7 @@ public class BombTowerModel extends Building{
     
         
      public BombTowerModel(int x, int y, Level level) {
-        super(x, y, level, baseFullHP); 
+        super(BuildingType.CANON,x, y, level, baseFullHP); 
         
         }
 }
