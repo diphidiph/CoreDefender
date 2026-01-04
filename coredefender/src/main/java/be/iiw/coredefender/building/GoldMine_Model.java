@@ -23,7 +23,9 @@ public class GoldMine_Model extends Building {
     }
     public final double getIncome(){
         return getLevel().upgradedIncome(baseIncome, 5);
-    }   
+    }
+    
+    
             
     
 }

@@ -8,27 +8,21 @@ import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.SVGPath;
 
 /**
  *
  * @author Gebruiker
  */
-public class StashView extends BuildingView {
-
-    
+public class BombTowerView extends BuildingView {
+        private Button BombTowerButton;
     private final int ButtonSize = 72;
-    private Button GoldStashButton;
-
-    public StashView(StashModel model) {
-        super(model);        
-        
-        GoldStashButton = createButtonWithImage("/be/iiw/coredefender/Buildings_Images/GoldStash.png");      
-        getChildren().add(GoldStashButton);
-    }  
     
     
+    public BombTowerView(BombTowerModel bombTowerModel){
+        super(bombTowerModel);
+        BombTowerButton = createButtonWithImage("/be/iiw/coredefender/Buildings_Images/Wall.png");      
+        getChildren().add(BombTowerButton);
+    }
      private Button createButtonWithImage(String imagePath) {
         Button btn = new Button();
         Image img = new Image(getClass().getResource(imagePath).toExternalForm());
@@ -48,6 +42,4 @@ public class StashView extends BuildingView {
         
         return btn;
     }
-
-    
 }
