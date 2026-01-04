@@ -12,7 +12,7 @@ public class StashModel extends Building {
     
         
      public StashModel(int x, int y, Level level) {
-        super(x, y, level, baseFullHP); 
+        super(BuildingType.GOLDSTASH,x, y, level, baseFullHP); 
         this.goldAmount = 0;
     }
     

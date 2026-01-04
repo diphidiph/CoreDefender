@@ -15,17 +15,18 @@ public class GoldMine_Model extends Building {
     private static final double baseIncome = 0.3;
     private double upgradedIncome;
     
+    
     public GoldMine_Model(int x, int y, Level level) {
-        super(x, y, level,baseFullHP);
+        super(BuildingType.GOLDMINE, x, y, level,baseFullHP);
+        
         
         this.upgradedIncome = getIncome();
         
     }
     public final double getIncome(){
         return getLevel().upgradedIncome(baseIncome, 5);
-    }
-    
-    
+    }   
+  
             
     
 }
