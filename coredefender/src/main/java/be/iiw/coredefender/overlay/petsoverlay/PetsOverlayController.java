@@ -116,11 +116,9 @@ public class PetsOverlayController {
     }
 
     private void refreshInventoryOverlay() {
-        overlayView.updateInventory(
+        overlayView.updateBuildingMaterials(
                 character.getWoodCount(),
-                character.getStoneCount(),
-                character.getGoldCount()
-        );
+                character.getStoneCount());                
     }
 
     // ---------------------- OVERLAY TOGGLE ----------------------

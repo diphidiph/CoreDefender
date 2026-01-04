@@ -19,7 +19,7 @@ public class BuildOverlayView {
 
     private final AnchorPane overlayPane;
     private final Button GoldStashButton;
-    private final Button CanonButton;
+    private final Button BombTowerButton;
     private final Button WallButton;
     private final Button GoldMineButton;
     private final int buttonSize = 50;
@@ -42,20 +42,20 @@ public class BuildOverlayView {
         overlayPane.getChildren().add(container);
 
         GoldStashButton = createButtonWithImage("/be/iiw/coredefender/Buildings_Images/GoldStash.png");
-        CanonButton = createButtonWithImage("/be/iiw/coredefender/Buildings_Images/BombTower.png");
+        BombTowerButton = createButtonWithImage("/be/iiw/coredefender/Buildings_Images/BombTower.png");
         WallButton = createButtonWithImage("/be/iiw/coredefender/Buildings_Images/Wall.png");
         GoldMineButton = createButtonWithImage("/be/iiw/coredefender/Buildings_Images/Gold-mine.png");
         
         GoldStashButton.setPrefSize(buttonSize, buttonSize);
-        CanonButton.setPrefSize(buttonSize, buttonSize);
+        BombTowerButton.setPrefSize(buttonSize, buttonSize);
         WallButton.setPrefSize(buttonSize, buttonSize);
         GoldMineButton.setPrefSize(buttonSize, buttonSize);
 
         GoldStashButton.setLayoutX(padding);
         GoldStashButton.setLayoutY(padding);
 
-        CanonButton.setLayoutX(padding);
-        CanonButton.setLayoutY(padding + buttonSize + spacing);
+        BombTowerButton.setLayoutX(padding);
+        BombTowerButton.setLayoutY(padding + buttonSize + spacing);
 
         WallButton.setLayoutX(padding);
         WallButton.setLayoutY(padding + 2 * (buttonSize + spacing));
@@ -66,7 +66,7 @@ public class BuildOverlayView {
         
         
 
-        overlayPane.getChildren().addAll(GoldStashButton, CanonButton, WallButton, GoldMineButton);
+        overlayPane.getChildren().addAll(GoldStashButton, BombTowerButton, WallButton, GoldMineButton);
     }
 
     
@@ -105,8 +105,8 @@ public class BuildOverlayView {
         return GoldMineButton;
     }
 
-    public Button getBuildCanonButton() {
-        return CanonButton;
+    public Button getBuildBombTowerButton() {
+        return BombTowerButton;
     }
 
     public Button getBuildWallButton() {

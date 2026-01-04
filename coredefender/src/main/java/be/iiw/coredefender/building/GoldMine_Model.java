@@ -8,11 +8,11 @@ import be.iiw.coredefender.level.Level;
 
 /**
  *
- * @author Yediael Ratahinarivelo
+ * @author R. Yediael
  */
 public class GoldMine_Model extends Building {
     private static final double baseFullHP = 50;
-    private static final double baseIncome = 0.3;
+    private static final double baseIncome = 0.02;
     private double upgradedIncome;
     
     

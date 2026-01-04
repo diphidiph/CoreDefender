@@ -1,6 +1,7 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ * R. Yediael
  */
 package be.iiw.coredefender.building;
 
@@ -20,7 +21,7 @@ public class BombTowerView extends BuildingView {
     
     public BombTowerView(BombTowerModel bombTowerModel){
         super(bombTowerModel);
-        BombTowerButton = createButtonWithImage("/be/iiw/coredefender/Buildings_Images/Wall.png");      
+        BombTowerButton = createButtonWithImage("/be/iiw/coredefender/Buildings_Images/BombTower.png");      
         getChildren().add(BombTowerButton);
     }
      private Button createButtonWithImage(String imagePath) {

@@ -31,7 +31,12 @@ public class BuildOverlayController {
     public void setOnGoldMine(EventHandler<ActionEvent> handler) {
         view.getBuildGoldMineButton().setOnAction(handler);
     }
-    
+     public void setOnBombTower(EventHandler<ActionEvent> handler) {
+        view.getBuildBombTowerButton().setOnAction(handler);
+    }
+    public void setOnWall(EventHandler<ActionEvent> handler) {
+        view.getBuildWallButton().setOnAction(handler);
+    }
 
     
     

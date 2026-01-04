@@ -1,3 +1,4 @@
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
@@ -118,7 +119,7 @@ public class CharacterController {
             char_model.addStone();
             System.out.println("Stone: " + char_model.getStoneCount());
         }
-        overlay.updateInventory(char_model);
+        overlay.updateBuildingMaterials(char_model);
     }
 
     public CharacterView getView() {

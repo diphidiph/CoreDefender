@@ -12,7 +12,7 @@ import javafx.scene.shape.SVGPath;
 
 /**
  *
- * @author Gebruiker
+ * @author R. Yediael 
  */
 public class GoldMineView extends BuildingView {
     private final Button GoldMineButton;

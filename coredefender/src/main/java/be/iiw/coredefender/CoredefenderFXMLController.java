@@ -63,21 +63,33 @@ public class CoredefenderFXMLController {
             buildOverlayController = new BuildOverlayController();
             
             buildingController = new BuildingController(world_pane, this, worldController);
+            
+            
             buildOverlayController.setOnGoldStash(e -> {
             buildingController.selectBuilding(BuildingType.GOLDSTASH);
             buildOverlayController.toggle(world_pane, (Stage) world_pane.getScene().getWindow());
             // focus terug naar worldPane zodat klik geregistreerd wordt
             world_pane.requestFocus();
-            //world_pane.getChildren().forEach(node -> node.setMouseTransparent(false));
-            //character_pane.setMouseTransparent(true); // laat klik door naar worldPane
-            });
-            
+            });            
             buildOverlayController.setOnGoldMine(e -> {
             buildingController.selectBuilding(BuildingType.GOLDMINE);
             buildOverlayController.toggle(world_pane, (Stage) world_pane.getScene().getWindow());
             // focus terug naar worldPane zodat klik geregistreerd wordt
             world_pane.requestFocus();        
+            });            
+            buildOverlayController.setOnBombTower(e -> {
+            buildingController.selectBuilding(BuildingType.BOMBTOWER);
+            buildOverlayController.toggle(world_pane, (Stage) world_pane.getScene().getWindow());
+            // focus terug naar worldPane zodat klik geregistreerd wordt
+            world_pane.requestFocus();        
+            });            
+            buildOverlayController.setOnWall(e -> {
+            buildingController.selectBuilding(BuildingType.WALL);
+            buildOverlayController.toggle(world_pane, (Stage) world_pane.getScene().getWindow());
+            // focus terug naar worldPane zodat klik geregistreerd wordt
+            world_pane.requestFocus();        
             });
+            
 
             overlayController.setBuildAction(this::onBuild);
             overlayController.setPetsAction(this::onPets);
@@ -235,5 +247,8 @@ public class CoredefenderFXMLController {
     }
     public Pane getWorldRoot(){
         return worldRoot;
+    }
+    public OverlayController getOverlayController(){
+        return overlayController;
     }
 }

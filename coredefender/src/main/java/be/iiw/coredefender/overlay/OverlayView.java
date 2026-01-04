@@ -112,9 +112,13 @@ public class OverlayView {
         return petsButton;
     }
     
-    public void updateInventory(int wood, int stone, int gold) {
+    public void updateBuildingMaterials(int wood, int stone) {
         woodLabel.setText("Wood: " + wood);
         stoneLabel.setText("Stone: " + stone);
+        
+    }
+    public void updateGoldAmount(double gold){
         goldLabel.setText("Gold: " + gold);
     }
+            
 }
