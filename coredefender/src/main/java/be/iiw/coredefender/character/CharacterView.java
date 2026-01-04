@@ -13,15 +13,15 @@ public class CharacterView extends Region {
 
         setPickOnBounds(false);
 
-        Circle lichaam = new Circle(0, 0, 30, Color.web("#9e7b5c"));
+        Circle lichaam = new Circle(0, 0, 25, Color.web("#9e7b5c"));
         lichaam.setStroke(Color.web("#262235"));
         lichaam.setStrokeWidth(2);
 
-        Circle linker_arm = new Circle(18, -23, 12, Color.web("#8c6b54"));
+        Circle linker_arm = new Circle(14, -18, 10, Color.web("#8c6b54"));
         linker_arm.setStroke(Color.web("#262235"));
         linker_arm.setStrokeWidth(2);
 
-        Circle rechter_arm = new Circle(18, 23, 12, Color.web("#8c6b54"));
+        Circle rechter_arm = new Circle(14, 18, 10, Color.web("#8c6b54"));
         rechter_arm.setStroke(Color.web("#262235"));
         rechter_arm.setStrokeWidth(2);
 
