@@ -9,7 +9,7 @@ import be.iiw.coredefender.CoredefenderFXMLController;
 import be.iiw.coredefender.building.GoldMineView;
 import be.iiw.coredefender.building.GoldMine_Model;
 import be.iiw.coredefender.building.StashView;
-import be.iiw.coredefender.building.Stash_Model;
+import be.iiw.coredefender.building.StashModel;
 import be.iiw.coredefender.level.Level;
 import java.util.ArrayList;
 import javafx.scene.control.Button;
@@ -28,7 +28,7 @@ public class BuildingController {
     private BuildingType selectedBuilding = null; //we starten met geen type
     private AnchorPane worldPane;
     // Voor Stash (max 1)
-    private Stash_Model stashModel;
+    private StashModel stashModel;
     private StashView stashView;
     private final int TILE_SIZE = 36;
     private CoredefenderFXMLController Main;
@@ -116,7 +116,7 @@ public class BuildingController {
             case GOLDSTASH:
                 if (stashModel == null) {
                    
-                    stashModel = new Stash_Model(snappedX, snappedY, Level.level_1);
+                    stashModel = new StashModel(snappedX, snappedY, Level.level_1);
                     stashView = new StashView(stashModel);
                     stashView.setTranslateX(stashModel.getX());
                     stashView.setTranslateY(stashModel.getY());
@@ -159,15 +159,7 @@ public class BuildingController {
         for (GoldMineView view : mineViews) {
             view.update();
         }
-    }
-    
-    
-    
-    
-       
-      
-        
-        
+    } 
 }
 
 
