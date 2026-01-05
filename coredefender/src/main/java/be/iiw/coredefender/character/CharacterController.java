@@ -6,6 +6,7 @@
 package be.iiw.coredefender.character;
 
 import be.iiw.coredefender.overlay.OverlayController;
+import be.iiw.coredefender.pets.PetsController;
 import be.iiw.coredefender.world.ResourceModel;
 import be.iiw.coredefender.world.ResourceType;
 import be.iiw.coredefender.world.WorldController;
@@ -23,16 +24,18 @@ public class CharacterController {
     private final CharacterView char_view;
     private OverlayController overlay;
     private WorldController worldController;
+    private PetsController petsController;
 
     
     private double mouseSceneX;
     private double mouseSceneY;
 
-    public CharacterController(CharacterModel model, CharacterView view, WorldController worldController, OverlayController overlay) {
+    public CharacterController(CharacterModel model, CharacterView view, WorldController worldController, OverlayController overlay, PetsController petsController) {
         this.char_model = model;
         this.char_view = view;
         this.worldController = worldController;
         this.overlay = overlay;
+        this.petsController = petsController;
     }
 
     public void onKeyPressed(KeyEvent ep) {
@@ -103,6 +106,7 @@ public class CharacterController {
     }
     
     public void checkHarvest(WorldController world) {
+
         ResourceModel res = world.getClosestResource(
                 char_model.getX(),
                 char_model.getY(),
@@ -111,15 +115,27 @@ public class CharacterController {
 
         if (res == null) return;
 
-        if (res.getType() == ResourceType.TREE) {
-            char_model.addWood();
-            System.out.println("Wood: " + char_model.getWoodCount());
-        } 
-        else if (res.getType() == ResourceType.STONE) {
-            char_model.addStone();
-            System.out.println("Stone: " + char_model.getStoneCount());
+        ResourceType type = res.getType();
+
+        // speler krijgt 1 resource (direct)
+        switch (type) {
+            case TREE:
+                char_model.addWood();
+                break;
+
+            case STONE:
+                char_model.addStone();
+                break;
         }
+
+        petsController.startHarvest(
+                type,
+                res.getX(),
+                res.getY()
+        );
+
         overlay.updateBuildingMaterials(char_model);
+        overlay.updateInventory(char_model);
     }
 
     public CharacterView getView() {

@@ -2,6 +2,7 @@ package be.iiw.coredefender.overlay;
 
 import be.iiw.coredefender.building.StashModel;
 import be.iiw.coredefender.character.CharacterModel;
+import be.iiw.coredefender.overlay.petsoverlay.PetsOverlayController;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.layout.AnchorPane;
@@ -10,6 +11,7 @@ import javafx.stage.Stage;
 public class OverlayController {
 
     private final OverlayView overlayView;
+    private PetsOverlayController petsOverlayController;
 
     public OverlayController() {
         overlayView = new OverlayView();

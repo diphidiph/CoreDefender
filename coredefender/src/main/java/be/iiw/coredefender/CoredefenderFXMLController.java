@@ -10,6 +10,7 @@ import be.iiw.coredefender.overlay.OverlayView;
 import be.iiw.coredefender.overlay.buildoverlay.BuildOverlayController;
 import be.iiw.coredefender.overlay.petsoverlay.PetsOverlayController;
 import be.iiw.coredefender.overlay.skilltreeoverlay.SkillTreeOverlayController;
+import be.iiw.coredefender.pets.PetsController;
 import be.iiw.coredefender.world.WorldController;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -42,6 +43,7 @@ public class CoredefenderFXMLController {
     private BuildingController buildingController;
     private WorldController worldController;
     private OverlayView overlayView;
+    private PetsController petsController;
     private Pane worldRoot;
     private double camX = 0;
     private double camY = 0;
@@ -50,16 +52,18 @@ public class CoredefenderFXMLController {
     void initialize() {
         overlayView = new OverlayView();
         overlayController = new OverlayController(overlayView);
-        
-
 
         createWorld();
-        createCharacter();
+        createCharacterModel();
         createPets();
+        createCharacter();
         createSkillTree();
         setupInput();
-        
+
         Platform.runLater(() -> {
+            setupOverlays();
+            overlayController.setPetsOverlayController(petsOverlayController);
+
             buildOverlayController = new BuildOverlayController();
             
             buildingController = new BuildingController(world_pane, this, worldController);
@@ -90,29 +94,30 @@ public class CoredefenderFXMLController {
             world_pane.requestFocus();        
             });
             
-
             overlayController.setBuildAction(this::onBuild);
             overlayController.setPetsAction(this::onPets);
             overlayController.setAttackAction(this::onAttack);
             overlayController.setSkillTreeAction(this::onSkillTree);
 
             overlayController.show(world_pane, (Stage) world_pane.getScene().getWindow()); 
-        startAnimation(); 
+        startAnimation();
         });
     }
 
     private void createWorld() {
         worldRoot = new Pane();
-
         worldController = new WorldController(1000, 1000, 60, 40);
         worldRoot.getChildren().add(worldController.getView());
-
         world_pane.getChildren().add(worldRoot);
+    }
+
+    private void createCharacterModel() {
+        char_model = new CharacterModel();
     }
 
     private void createCharacter() {
         character_pane = new AnchorPane();
-        character_pane.setPickOnBounds(false);
+        character_pane.setPickOnBounds(true);
         character_pane.setFocusTraversable(true);
 
         AnchorPane.setTopAnchor(character_pane, 0.0);
@@ -122,15 +127,30 @@ public class CoredefenderFXMLController {
 
         world_pane.getChildren().add(character_pane);
 
-        char_model = new CharacterModel();
         CharacterView char_view = new CharacterView(char_model);
         worldRoot.getChildren().add(char_view);
 
-        characterController = new CharacterController(char_model, char_view, worldController, overlayController);
+        characterController = new CharacterController(
+            char_model,
+            char_view,
+            worldController,
+            overlayController,
+            petsController
+        );
     }
     
     private void createPets() {
-        petsOverlayController = new PetsOverlayController(char_model, overlayView);
+        petsController = new PetsController(
+            char_model,
+            worldRoot,
+            overlayController
+        );
+
+        petsOverlayController = new PetsOverlayController(
+            char_model,
+            overlayView,
+            petsController
+        );
     }
     
     private void createSkillTree() {
@@ -138,11 +158,34 @@ public class CoredefenderFXMLController {
     }
 
     private void setupInput() {
-        character_pane.setPickOnBounds(true);
         character_pane.setOnKeyPressed(this::onMovementInput);
         character_pane.setOnKeyReleased(this::onMovementRelease);
         character_pane.setOnMouseMoved(characterController::onMouseMoved);
         character_pane.setOnMouseDragged(characterController::onMouseMoved);
+    }
+    
+    private void setupOverlays() {
+        buildOverlayController = new BuildOverlayController();
+        buildingController = new BuildingController(world_pane, this, worldController);
+
+        buildOverlayController.setOnGoldStash(e -> {
+            buildingController.selectBuilding(BuildingType.GOLDSTASH);
+            buildOverlayController.toggle(world_pane, getStage());
+            world_pane.requestFocus();
+        });
+
+        buildOverlayController.setOnGoldMine(e -> {
+            buildingController.selectBuilding(BuildingType.GOLDMINE);
+            buildOverlayController.toggle(world_pane, getStage());
+            world_pane.requestFocus();
+        });
+
+        overlayController.setBuildAction(this::onBuild);
+        overlayController.setPetsAction(this::onPets);
+        overlayController.setAttackAction(this::onAttack);
+        overlayController.setSkillTreeAction(this::onSkillTree);
+
+        overlayController.show(world_pane, getStage());
     }
 
     
@@ -161,94 +204,91 @@ public class CoredefenderFXMLController {
     
     **/
     private void startAnimation() {
+        new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                char_model.tick(
+                    worldController,
+                    (int) worldRoot.getWidth(),
+                    (int) worldRoot.getHeight(),
+                    characterController.getView().getWidth(),
+                    characterController.getView().getHeight()
+                );
 
-    new AnimationTimer() {
-        
-        //handle is gekend door JavaFX en loopt 60x per sec. We nemen die en passen het aan met @override
-        //now is de tijdstip van type long (in nano sec) en dat is nodig voor Java om de tijd bij te houden.
-        
-        @Override
-        public void handle(long now) {
-            if (worldController != null && char_model != null && characterController != null) {
-                // tick met collision + world boundaries
-                char_model.tick(worldController,(int)worldRoot.getWidth(),(int)worldRoot.getHeight(),characterController.getView().getWidth(), characterController.getView().getHeight());
-
-                // update de zichtbare tiles rond de speler
                 worldController.update(char_model.getX(), char_model.getY());
-
-                // update character view
                 characterController.update();
 
-                // update buildings
                 if (buildingController != null) {
                     buildingController.update();
                 }
 
-                // update camera
+                petsController.update();
                 updateCamera();
             }
-        }
-    }.start();
-}
-
-
-    private void onMovementInput(KeyEvent ep) {
-        characterController.onKeyPressed(ep);
+        }.start();
     }
 
-    private void onMovementRelease(KeyEvent er) {
-        characterController.onKeyReleased(er);
+    private void onMovementInput(KeyEvent e) {
+        characterController.onKeyPressed(e);
+    }
+
+    private void onMovementRelease(KeyEvent e) {
+        characterController.onKeyReleased(e);
+    }
+
+    private void onBuild(ActionEvent e) {
+        buildOverlayController.toggle(world_pane, getStage());
+        character_pane.requestFocus();
+    }
+
+    private void onPets(ActionEvent e) {
+        petsOverlayController.toggle(world_pane, getStage());
+        character_pane.requestFocus();
+    }
+
+    private void onAttack(ActionEvent e) {
+        character_pane.requestFocus();
+    }
+
+    private void onSkillTree(ActionEvent e) {
+        skilltreeOverlayController.toggle(world_pane, getStage());
+        character_pane.requestFocus();
     }
     
-    private void onBuild(ActionEvent event) {
-        Stage stage = (Stage) world_pane.getScene().getWindow();
-        buildOverlayController.toggle(world_pane, stage);
-        character_pane.requestFocus();
-    }
+    private void updateCamera() {
+        double w = world_pane.getScene().getWidth();
+        double h = world_pane.getScene().getHeight();
 
-    private void onPets(ActionEvent event) {
-        Stage stage = (Stage) world_pane.getScene().getWindow();
-        petsOverlayController.toggle(world_pane, stage);
-        character_pane.requestFocus();
-    }
+        double cx = char_model.getX() + characterController.getView().getWidth() / 2;
+        double cy = char_model.getY() + characterController.getView().getHeight() / 2;
 
-    private void onAttack(ActionEvent event) {
-        character_pane.requestFocus();
-    }
+        double targetX = -(cx - w / 2);
+        double targetY = -(cy - h / 2);
 
-    private void onSkillTree(ActionEvent event) {
-        Stage stage = (Stage) world_pane.getScene().getWindow();
-        skilltreeOverlayController.toggle(world_pane, stage);
-        character_pane.requestFocus();
-    }
-
-    public void updateCamera() {
-        double screenWidth = world_pane.getScene().getWidth();
-        double screenHeight = world_pane.getScene().getHeight();
-
-        double charCenterX = char_model.getX() + characterController.getView().getWidth() / 2;
-        double charCenterY = char_model.getY() + characterController.getView().getHeight() / 2;
-
-        double targetCamX = -(charCenterX - screenWidth / 2);
-        double targetCamY = -(charCenterY - screenHeight / 2);
-
-        // maakt camera smooth (update 0.1x)
-        camX += (targetCamX - camX) * 0.1;
-        camY += (targetCamY - camY) * 0.1;
+        camX += (targetX - camX) * 0.1;
+        camY += (targetY - camY) * 0.1;
 
         worldRoot.setTranslateX(camX);
         worldRoot.setTranslateY(camY);
     }
-    public double getCamX(){
-        return camX;        
+
+    private Stage getStage() {
+        return (Stage) world_pane.getScene().getWindow();
     }
-    public double getCamY(){
-        return camY;        
-    }
-    public Pane getWorldRoot(){
+    
+    public Pane getWorldRoot() {
         return worldRoot;
     }
+
     public OverlayController getOverlayController(){
         return overlayController;
+    }
+
+    public double getCamX() {
+        return camX;
+    }
+
+    public double getCamY() {
+        return camY;
     }
 }
