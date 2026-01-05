@@ -1,7 +1,7 @@
 package be.iiw.coredefender.overlay.petsoverlay;
 
+import be.iiw.coredefender.pets.Pet;
 import be.iiw.coredefender.pets.PetTypeEnum;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -9,12 +9,12 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
 import java.util.List;
-import javafx.scene.layout.VBox;
 
 public class PetsOverlayView {
 
@@ -26,7 +26,6 @@ public class PetsOverlayView {
         petsPane = new AnchorPane();
         petsPane.setPrefSize(620, 500);
 
-        // Background rectangle
         Rectangle bg = new Rectangle(620, 500, Color.web("#2F3B52"));
         bg.setArcWidth(20);
         bg.setArcHeight(20);
@@ -34,7 +33,6 @@ public class PetsOverlayView {
         bg.setStrokeWidth(3);
         petsPane.getChildren().add(bg);
 
-        // VBox to center rows vertically
         petsBoxContainer = new HBox();
         petsBoxContainer.setAlignment(Pos.CENTER);
         petsBoxContainer.setPrefWidth(620);
@@ -42,76 +40,79 @@ public class PetsOverlayView {
         petsPane.getChildren().add(petsBoxContainer);
     }
 
-    // ---------------------- BUILD ROWS ----------------------
+    // ---------------------- BUILD ----------------------
     public void buildRows(PetsOverlayModel model) {
         petsBoxContainer.getChildren().clear();
         petRows.clear();
 
-        HBox mainRowContainer = new HBox(20); // spacing between columns
-        mainRowContainer.setAlignment(Pos.CENTER);
+        HBox main = new HBox(20);
+        main.setAlignment(Pos.CENTER);
 
-        VBox iconsColumn = new VBox(15);
-        VBox namesColumn = new VBox(15);
-        VBox statsColumn = new VBox(15);
-        VBox buttonsColumn = new VBox(15);
+        VBox icons = new VBox(15);
+        VBox names = new VBox(15);
+        VBox stats = new VBox(15);
+        VBox buttons = new VBox(15);
 
-        iconsColumn.setAlignment(Pos.CENTER);
-        namesColumn.setAlignment(Pos.CENTER_LEFT);
-        statsColumn.setAlignment(Pos.CENTER_LEFT);
-        buttonsColumn.setAlignment(Pos.CENTER);
+        icons.setAlignment(Pos.CENTER);
+        names.setAlignment(Pos.CENTER_LEFT);
+        stats.setAlignment(Pos.CENTER_LEFT);
+        buttons.setAlignment(Pos.CENTER);
 
         for (PetsOverlayModel.PetState state : model.getPetStates()) {
-            PetTypeEnum pet = state.getPet();
+
+            Pet pet = state.getPet();
+            PetTypeEnum type = pet.getType();
 
             // Icon
-            ImageView icon = new ImageView(new Image(getClass().getResourceAsStream(
-                    "/be/iiw/coredefender/pets_resources/" + pet.name().toLowerCase() + ".png")));
+            ImageView icon = new ImageView(new Image(
+                    getClass().getResourceAsStream(
+                            "/be/iiw/coredefender/pets_resources/"
+                                    + type.name().toLowerCase() + ".png"
+                    )
+            ));
             icon.setFitWidth(50);
             icon.setFitHeight(50);
-            iconsColumn.getChildren().add(icon);
+            icons.getChildren().add(icon);
 
-            // Name + Description
-            VBox infoBox = new VBox(5);
-            infoBox.setAlignment(Pos.CENTER_LEFT);
+            // Name + desc
+            VBox info = new VBox(5);
+            Label name = new Label(pet.getName());
+            name.setTextFill(Color.WHITE);
+            name.setStyle("-fx-font-weight: bold");
 
-            Label nameLabel = new Label(pet.getName());
-            nameLabel.setTextFill(Color.WHITE);
-            nameLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 14px;");
+            Label desc = new Label(pet.getDescription());
+            desc.setTextFill(Color.LIGHTGRAY);
 
-            Label descLabel = new Label(pet.getDescription());
-            descLabel.setTextFill(Color.LIGHTGRAY);
-            descLabel.setStyle("-fx-font-size: 12px;");
+            info.getChildren().addAll(name, desc);
+            names.getChildren().add(info);
 
-            infoBox.getChildren().addAll(nameLabel, descLabel);
-            namesColumn.getChildren().add(infoBox);
+            // Stats
+            VBox statBox = new VBox(5);
+            Label cost = new Label(
+                    "Cost: " + pet.getBaseCost() + " " + pet.getBaseCostResourceType()
+            );
+            cost.setTextFill(Color.GOLD);
 
-            // Cost + Level/XP
-            VBox statsBox = new VBox(5);
-            statsBox.setAlignment(Pos.CENTER_LEFT);
+            Label lvl = new Label(
+                "Lvl: " + pet.getLevel() +
+                " | XP: " + pet.getXp() + "/" + pet.getXpNextLevel()
+            );
+            lvl.setTextFill(Color.LIGHTGREEN);
 
-            Label costLabel = new Label("Cost: " + pet.getBaseCost() + " " + pet.getBaseCostResourceType());
-            costLabel.setTextFill(Color.GOLD);
-            costLabel.setStyle("-fx-font-size: 12px; -fx-font-weight: bold;");
+            statBox.getChildren().addAll(cost, lvl);
+            stats.getChildren().add(statBox);
 
-            Label lvlLabel = new Label("Lvl: " + pet.getLvl() + " | XP: " + pet.getXp() + "/100");
-            lvlLabel.setTextFill(Color.LIGHTGREEN);
-            lvlLabel.setStyle("-fx-font-size: 12px;");
+            // Button
+            Button btn = new Button("Buy");
+            btn.setStyle("-fx-background-color: #4A90E2; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8;");
+            btn.setPrefWidth(90);
+            buttons.getChildren().add(btn);
 
-            statsBox.getChildren().addAll(costLabel, lvlLabel);
-            statsColumn.getChildren().add(statsBox);
-
-            // Action Button
-            Button actionBtn = new Button("Buy");
-            actionBtn.setPrefWidth(90);
-            actionBtn.setPrefHeight(30);
-            actionBtn.setStyle("-fx-background-color: #4A90E2; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8;");
-            buttonsColumn.getChildren().add(actionBtn);
-
-            petRows.add(new PetRow(pet, state, actionBtn));
+            petRows.add(new PetRow(pet, state, btn, lvl));
         }
 
-        mainRowContainer.getChildren().addAll(iconsColumn, namesColumn, statsColumn, buttonsColumn);
-        petsBoxContainer.getChildren().add(mainRowContainer);
+        main.getChildren().addAll(icons, names, stats, buttons);
+        petsBoxContainer.getChildren().add(main);
     }
 
     // ---------------------- HELPERS ----------------------
@@ -123,27 +124,33 @@ public class PetsOverlayView {
         return petRows;
     }
 
+    // ---------------------- ROW ----------------------
     public static class PetRow {
-        private final PetTypeEnum pet;
+
+        private final Pet pet;
         private final PetsOverlayModel.PetState state;
         private final Button actionButton;
+        private final Label levelLabel;
 
-        public PetRow(PetTypeEnum pet, PetsOverlayModel.PetState state, Button actionButton) {
+        public PetRow(Pet pet,
+                      PetsOverlayModel.PetState state,
+                      Button actionButton,
+                      Label levelLabel) {
             this.pet = pet;
             this.state = state;
             this.actionButton = actionButton;
+            this.levelLabel = levelLabel;
         }
 
-        public PetTypeEnum getPet() {
-            return pet;
+        public void updateStats() {
+            levelLabel.setText(
+                "Lvl: " + pet.getLevel() +
+                " | XP: " + pet.getXp() + "/" + pet.getXpNextLevel()
+            );
         }
 
-        public PetsOverlayModel.PetState getState() {
-            return state;
-        }
-
-        public Button getActionButton() {
-            return actionButton;
-        }
+        public Pet getPet() { return pet; }
+        public PetsOverlayModel.PetState getState() { return state; }
+        public Button getActionButton() { return actionButton; }
     }
 }

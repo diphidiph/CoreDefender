@@ -1,47 +1,45 @@
 package be.iiw.coredefender.overlay.petsoverlay;
 
+import be.iiw.coredefender.pets.Pet;
 import be.iiw.coredefender.pets.PetTypeEnum;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class PetsOverlayModel {
 
-    // PET STATE
+    // ---------------------- PET STATE ----------------------
     public static class PetState {
-        private final PetTypeEnum pet;
+        private final Pet pet;
         public boolean unlocked = false;
         public boolean selected = false;
 
-        public PetState(PetTypeEnum pet) {
+        public PetState(Pet pet) {
             this.pet = pet;
         }
 
-        public PetTypeEnum getPet() {
+        public Pet getPet() {
             return pet;
         }
     }
 
-    // DATA (lijst)
+    // ---------------------- DATA ----------------------
     private final List<PetState> petStates = new ArrayList<>();
-    private PetTypeEnum selectedPet = null;
+    private Pet selectedPet = null;
 
-    // CONSTRUCTOR
+    // ---------------------- CONSTRUCTOR ----------------------
     public PetsOverlayModel() {
-        for (PetTypeEnum pet : PetTypeEnum.values()) {
-            petStates.add(new PetState(pet));
+        for (PetTypeEnum type : PetTypeEnum.values()) {
+            petStates.add(new PetState(new Pet(type)));
         }
     }
 
-    // QUERIES
+    // ---------------------- QUERIES ----------------------
     public List<PetState> getPetStates() {
         return petStates;
     }
 
-    public PetTypeEnum getSelectedPet() {
-        return selectedPet;
-    }
-
-    public PetState getState(PetTypeEnum pet) {
+    public PetState getState(Pet pet) {
         for (PetState state : petStates) {
             if (state.getPet() == pet) {
                 return state;
@@ -50,19 +48,20 @@ public class PetsOverlayModel {
         return null;
     }
 
-    // MUTATIONS
-    public boolean unlockPet(PetTypeEnum pet) {
-        PetState state = getState(pet);
+    public Pet getSelectedPet() {
+        return selectedPet;
+    }
 
-        if (state.unlocked) {
-            return false;
-        }
+    // ---------------------- MUTATIONS ----------------------
+    public boolean unlockPet(Pet pet) {
+        PetState state = getState(pet);
+        if (state == null || state.unlocked) return false;
 
         state.unlocked = true;
         return true;
     }
 
-    public void selectPet(PetTypeEnum pet) {
+    public void selectPet(Pet pet) {
         selectedPet = pet;
 
         for (PetState state : petStates) {
