@@ -70,4 +70,15 @@ public class OverlayController {
             petsOverlayController.refreshPetStats();
         }
     }
+    
+    public void updateInventory(CharacterModel model) {
+        overlayView.updateBuildingMaterials(
+            model.getWoodCount(),
+            model.getStoneCount()
+        );
+
+        overlayView.updateGoldAmount(
+            model.getGoldCount()
+        );
+    }
 }
