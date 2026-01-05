@@ -2,7 +2,8 @@ package be.iiw.coredefender.overlay.petsoverlay;
 
 import be.iiw.coredefender.character.CharacterModel;
 import be.iiw.coredefender.overlay.OverlayView;
-import be.iiw.coredefender.pets.PetTypeEnum;
+import be.iiw.coredefender.pets.Pet;
+import be.iiw.coredefender.pets.PetsController;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
@@ -10,6 +11,7 @@ public class PetsOverlayController {
 
     private final PetsOverlayModel model;
     private final PetsOverlayView view;
+    private final PetsController petsController;
 
     private final CharacterModel character;
     private final OverlayView overlayView;
@@ -17,9 +19,14 @@ public class PetsOverlayController {
     private boolean visible = false;
 
     // ---------------------- CONSTRUCTOR ----------------------
-    public PetsOverlayController(CharacterModel character, OverlayView overlayView) {
+    public PetsOverlayController(
+            CharacterModel character,
+            OverlayView overlayView,
+            PetsController petsController
+    ) {
         this.character = character;
         this.overlayView = overlayView;
+        this.petsController = petsController;
 
         this.model = new PetsOverlayModel();
         this.view = new PetsOverlayView();
@@ -31,15 +38,16 @@ public class PetsOverlayController {
     // ---------------------- BUTTONS LINKEN ----------------------
     private void wireButtons() {
         for (PetsOverlayView.PetRow row : view.getPetRows()) {
-            PetTypeEnum pet = row.getPet();
+            Pet pet = row.getPet();
             row.getActionButton().setOnAction(e -> onPetButtonPressed(pet));
             updateButton(row);
         }
     }
 
     // ---------------------- BUTTON LOGICA ----------------------
-    private void onPetButtonPressed(PetTypeEnum pet) {
+    private void onPetButtonPressed(Pet pet) {
         PetsOverlayModel.PetState state = model.getState(pet);
+        if (state == null) return;
 
         if (!state.unlocked) {
             attemptPurchase(pet);
@@ -51,7 +59,7 @@ public class PetsOverlayController {
     }
 
     // ---------------------- PET KOPEN ----------------------
-    private void attemptPurchase(PetTypeEnum pet) {
+    private void attemptPurchase(Pet pet) {
         if (!canAfford(pet)) {
             System.out.println("Not enough resources to buy " + pet.getName());
             return;
@@ -64,33 +72,45 @@ public class PetsOverlayController {
         refreshInventoryOverlay();
     }
 
-    private boolean canAfford(PetTypeEnum pet) {
-        switch (pet.getBaseCostResourceType().toLowerCase()) {
-            case "wood":  return character.getWoodCount()  >= pet.getBaseCost();
-            case "stone": return character.getStoneCount() >= pet.getBaseCost();
-            case "gold":  return character.getGoldCount()  >= pet.getBaseCost();
-            default:      return false;
+    private boolean canAfford(Pet pet) {
+        int cost = pet.getBaseCost();
+        String type = pet.getBaseCostResourceType();
+        if (type == null) return false;
+
+        switch (type.toLowerCase()) {
+            case "wood":
+                return character.getWoodCount() >= cost;
+            case "stone":
+                return character.getStoneCount() >= cost;
+            case "gold":
+                return character.getGoldCount() >= cost;
+            default:
+                return false;
         }
     }
 
-    private void payForPet(PetTypeEnum pet) {
-        switch (pet.getBaseCostResourceType().toLowerCase()) {
+    private void payForPet(Pet pet) {
+        int cost = pet.getBaseCost();
+        String type = pet.getBaseCostResourceType();
+        if (type == null) return;
+
+        switch (type.toLowerCase()) {
             case "wood":
-                for (int i = 0; i < pet.getBaseCost(); i++) character.removeWood();
+                for (int i = 0; i < cost; i++) character.removeWood();
                 break;
             case "stone":
-                for (int i = 0; i < pet.getBaseCost(); i++) character.removeStone();
+                for (int i = 0; i < cost; i++) character.removeStone();
                 break;
             case "gold":
-                for (int i = 0; i < pet.getBaseCost(); i++) character.removeGold();
+                for (int i = 0; i < cost; i++) character.removeGold();
                 break;
         }
     }
 
     // ---------------------- SELECTEREN ----------------------
-    private void selectPet(PetTypeEnum pet) {
+    private void selectPet(Pet pet) {
         model.selectPet(pet);
-        System.out.println("Selected pet: " + pet.getName());
+        petsController.selectPet(pet);
     }
 
     // ---------------------- UI UPDATES ----------------------
@@ -102,16 +122,13 @@ public class PetsOverlayController {
 
     private void updateButton(PetsOverlayView.PetRow row) {
         PetsOverlayModel.PetState state = row.getState();
-        switchStateText(row.getActionButton(), state);
-    }
 
-    private void switchStateText(javafx.scene.control.Button btn, PetsOverlayModel.PetState state) {
         if (!state.unlocked) {
-            btn.setText("Buy");
+            row.getActionButton().setText("Buy");
         } else if (state.selected) {
-            btn.setText("Selected");
+            row.getActionButton().setText("Selected");
         } else {
-            btn.setText("Select");
+            row.getActionButton().setText("Select");
         }
     }
 
@@ -140,15 +157,19 @@ public class PetsOverlayController {
     }
 
     // ---------------------- GETTERS ----------------------
-    public PetsOverlayView getView() {
-        return view;
-    }
-
-    public PetsOverlayModel getModel() {
-        return model;
-    }
-
     public boolean isVisible() {
         return visible;
     }
+    
+    public void refreshPetStats() {
+        for (PetsOverlayView.PetRow row : view.getPetRows()) {
+            row.updateStats();
+        }
+    }
+
+    public void refresh() {
+        view.buildRows(model);
+        wireButtons();
+    }
+
 }
