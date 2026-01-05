@@ -4,7 +4,7 @@
  */
 package be.iiw.coredefender.world;
 
-import be.iiw.coredefender.Collidables.Collidable;
+import be.iiw.coredefender.collidable.Collidable;
 
 /**
  *

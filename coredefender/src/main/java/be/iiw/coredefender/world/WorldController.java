@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package be.iiw.coredefender.world;
-import be.iiw.coredefender.Collidables.Collidable;
+import be.iiw.coredefender.collidable.Collidable;
 
 import java.util.ArrayList;
 import java.util.List;

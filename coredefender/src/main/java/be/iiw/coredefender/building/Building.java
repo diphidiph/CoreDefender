@@ -6,7 +6,7 @@
 package be.iiw.coredefender.building;
 
 
-import be.iiw.coredefender.Collidables.Collidable;
+import be.iiw.coredefender.collidable.Collidable;
 import be.iiw.coredefender.level.Level;
 
 /**
