@@ -58,4 +58,25 @@ public class OverlayController {
     public void setSkillTreeAction(EventHandler<ActionEvent> handler) {
         overlayView.getLevelButton().setOnAction(handler);
     }
+    
+    public void setPetsOverlayController(PetsOverlayController petsOverlayController) {
+        this.petsOverlayController = petsOverlayController;
+    }
+
+    public void refreshPetStats() {
+        if (petsOverlayController != null) {
+            petsOverlayController.refreshPetStats();
+        }
+    }
+    
+    public void updateInventory(CharacterModel model) {
+        overlayView.updateBuildingMaterials(
+            model.getWoodCount(),
+            model.getStoneCount()
+        );
+
+        overlayView.updateGoldAmount(
+            model.getGoldCount()
+        );
+    }
 }

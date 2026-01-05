@@ -120,5 +120,5 @@ public class OverlayView {
     public void updateGoldAmount(double gold){
         goldLabel.setText("Gold: " + gold);
     }
-            
+        
 }
