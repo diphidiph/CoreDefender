@@ -2,9 +2,11 @@ package be.iiw.coredefender;
 
 import be.iiw.coredefender.building.BuildingController;
 import be.iiw.coredefender.building.BuildingType;
+import be.iiw.coredefender.building.StashModel;
 import be.iiw.coredefender.character.CharacterController;
 import be.iiw.coredefender.character.CharacterModel;
 import be.iiw.coredefender.character.CharacterView;
+import be.iiw.coredefender.enemy.EnemyController;
 import be.iiw.coredefender.overlay.OverlayController;
 import be.iiw.coredefender.overlay.OverlayView;
 import be.iiw.coredefender.overlay.buildoverlay.BuildOverlayController;
@@ -47,11 +49,15 @@ public class CoredefenderFXMLController {
     private Pane worldRoot;
     private double camX = 0;
     private double camY = 0;
+    private EnemyController enemyController;
+    private StashModel stash;
+    private double deltaTime = 5;
 
     @FXML
     void initialize() {
         overlayView = new OverlayView();
         overlayController = new OverlayController(overlayView);
+        enemyController = new EnemyController(stash);
 
         createWorld();
         createCharacterModel();
@@ -59,6 +65,8 @@ public class CoredefenderFXMLController {
         createCharacter();
         createSkillTree();
         setupInput();
+        
+        enemyController.update(deltaTime);  
 
         Platform.runLater(() -> {
             setupOverlays();
