@@ -19,7 +19,7 @@ public class CharacterModel {
     private int gold = 0;
 
     public CharacterModel() {
-        this((int) (Math.random() * 1000),(int) (Math.random() * 1000));
+        this((int) (Math.random() * 10000),(int) (Math.random() * 10000));
     }
 
     public CharacterModel(int x, int y) {

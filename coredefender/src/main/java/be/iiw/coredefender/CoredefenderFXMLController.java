@@ -54,10 +54,7 @@ public class CoredefenderFXMLController {
     private double deltaTime = 5;
 
     @FXML
-    void initialize() {
-        overlayView = new OverlayView();
-        overlayController = new OverlayController(overlayView);
-        enemyController = new EnemyController(stash);
+    void initialize() {      
 
         createWorld();
         createCharacterModel();
@@ -66,17 +63,31 @@ public class CoredefenderFXMLController {
         createSkillTree();
         setupInput();
         
-        enemyController.update(deltaTime);  
+        world_pane.setFocusTraversable(true);         
+        overlayView = new OverlayView();
+        overlayController = new OverlayController(overlayView);
+        buildOverlayController = new BuildOverlayController();
+        buildingController = new BuildingController(world_pane, this, worldController);
+        setupOverlays();
+        
+         
 
         Platform.runLater(() -> {
-            setupOverlays();
-            overlayController.setPetsOverlayController(petsOverlayController);
+             overlayController.setPetsOverlayController(petsOverlayController);     
+                  
+            overlayController.show(world_pane, (Stage) world_pane.getScene().getWindow()); 
+            world_pane.requestFocus();
+        startAnimation();
+        });
+    }
+    private void setupInput() {
+        world_pane.setOnKeyPressed(this::onMovementInput);
+        world_pane.setOnKeyReleased(this::onMovementRelease);
+        world_pane.setOnMouseMoved(characterController::onMouseMoved);
+        world_pane.setOnMouseDragged(characterController::onMouseMoved);
+    }
+        private void setupOverlays() {
 
-            buildOverlayController = new BuildOverlayController();
-            
-            buildingController = new BuildingController(world_pane, this, worldController);
-            
-            
             buildOverlayController.setOnGoldStash(e -> {
             buildingController.selectBuilding(BuildingType.GOLDSTASH);
             buildOverlayController.toggle(world_pane, (Stage) world_pane.getScene().getWindow());
@@ -101,15 +112,11 @@ public class CoredefenderFXMLController {
             // focus terug naar worldPane zodat klik geregistreerd wordt
             world_pane.requestFocus();        
             });
-            
-            overlayController.setBuildAction(this::onBuild);
-            overlayController.setPetsAction(this::onPets);
-            overlayController.setAttackAction(this::onAttack);
-            overlayController.setSkillTreeAction(this::onSkillTree);
 
-            overlayController.show(world_pane, (Stage) world_pane.getScene().getWindow()); 
-        startAnimation();
-        });
+        overlayController.setBuildAction(this::onBuild);
+        overlayController.setPetsAction(this::onPets);
+        overlayController.setAttackAction(this::onAttack);
+        overlayController.setSkillTreeAction(this::onSkillTree);        
     }
 
     private void createWorld() {
@@ -165,36 +172,9 @@ public class CoredefenderFXMLController {
         skilltreeOverlayController = new SkillTreeOverlayController();
     }
 
-    private void setupInput() {
-        character_pane.setOnKeyPressed(this::onMovementInput);
-        character_pane.setOnKeyReleased(this::onMovementRelease);
-        character_pane.setOnMouseMoved(characterController::onMouseMoved);
-        character_pane.setOnMouseDragged(characterController::onMouseMoved);
-    }
     
-    private void setupOverlays() {
-        buildOverlayController = new BuildOverlayController();
-        buildingController = new BuildingController(world_pane, this, worldController);
+    
 
-        buildOverlayController.setOnGoldStash(e -> {
-            buildingController.selectBuilding(BuildingType.GOLDSTASH);
-            buildOverlayController.toggle(world_pane, getStage());
-            world_pane.requestFocus();
-        });
-
-        buildOverlayController.setOnGoldMine(e -> {
-            buildingController.selectBuilding(BuildingType.GOLDMINE);
-            buildOverlayController.toggle(world_pane, getStage());
-            world_pane.requestFocus();
-        });
-
-        overlayController.setBuildAction(this::onBuild);
-        overlayController.setPetsAction(this::onPets);
-        overlayController.setAttackAction(this::onAttack);
-        overlayController.setSkillTreeAction(this::onSkillTree);
-
-        overlayController.show(world_pane, getStage());
-    }
 
     
     /** Dit is hoe wij geleerd hebben tot nu toe (met gebruik van TimerTask)
@@ -229,8 +209,9 @@ public class CoredefenderFXMLController {
                 if (buildingController != null) {
                     buildingController.update();
                 }
-
+               
                 petsController.update();
+                
                 updateCamera();
             }
         }.start();
