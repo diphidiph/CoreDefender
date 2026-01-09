@@ -29,6 +29,12 @@ public class CharacterController {
     
     private double mouseSceneX;
     private double mouseSceneY;
+    
+    private boolean harvesting = false;
+    private long lastHarvestTime = 0;
+    private static final long HARVEST_COOLDOWN = 0;
+
+
 
     public CharacterController(CharacterModel model, CharacterView view, WorldController worldController, OverlayController overlay, PetsController petsController) {
         this.char_model = model;
@@ -53,7 +59,7 @@ public class CharacterController {
                 char_model.onder();
                 break;
             case H:
-                checkHarvest(worldController);
+                harvesting = true;
                 break;
             default:
                 return;
@@ -74,6 +80,9 @@ public class CharacterController {
             case DOWN: 
                 char_model.stopY(); 
                 break; 
+            case H:
+                harvesting = false;
+                break;
             default: 
                 return; 
         }
@@ -91,10 +100,16 @@ public class CharacterController {
         char_model.setRotation(Math.toDegrees(Math.atan2(dy, dx)));
     }
 
-    public void update() {
+    public void update(long now) {
         updateRotation();
         char_view.update();
+        
+        if (harvesting) {
+            checkHarvest(worldController); // labels worden direct geüpdatet
+        }
     }
+
+
     
     private void updateRotation() {
         Point2D charPos = char_view.localToScene(0, 0);

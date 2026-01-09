@@ -59,25 +59,28 @@ public class CoredefenderFXMLController {
         createWorld();
         createCharacterModel();
         createPets();
+                 
+        overlayView = new OverlayView();
+        overlayController = new OverlayController(overlayView);
+        
         createCharacter();
+        
         createSkillTree();
         setupInput();
         
-        world_pane.setFocusTraversable(true);         
-        overlayView = new OverlayView();
-        overlayController = new OverlayController(overlayView);
+        world_pane.setFocusTraversable(true);
+        
         buildOverlayController = new BuildOverlayController();
         buildingController = new BuildingController(world_pane, this, worldController);
         setupOverlays();
-        
-         
 
+        
         Platform.runLater(() -> {
              overlayController.setPetsOverlayController(petsOverlayController);     
                   
             overlayController.show(world_pane, (Stage) world_pane.getScene().getWindow()); 
             world_pane.requestFocus();
-        startAnimation();
+            startAnimation();
         });
     }
     private void setupInput() {
@@ -204,7 +207,7 @@ public class CoredefenderFXMLController {
                 );
 
                 worldController.update(char_model.getX(), char_model.getY());
-                characterController.update();
+                characterController.update(now);
 
                 if (buildingController != null) {
                     buildingController.update();
